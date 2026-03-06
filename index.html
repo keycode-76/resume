@@ -3,331 +3,311 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-    
-    @font-face {
-      font-family: 'Domaine Display Narrow';
-      src: url('https://fonts.cdnfonts.com/s/14625/DomaineDispNar-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    
-    @font-face {
-      font-family: 'Domaine Display Narrow';
-      src: url('https://fonts.cdnfonts.com/s/14625/DomaineDispNar-Bold.woff') format('woff');
-      font-weight: 700;
-      font-style: normal;
+    .animate-rise {
+      animation: rise 0.7s ease forwards;
     }
-    
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #1a1a1a;
-      color: #ffffff;
+    .animate-rise-delay-1 {
+      animation: rise 0.7s 0.1s ease forwards;
     }
-    
-    .font-domaine {
-      font-family: 'Domaine Display Narrow', serif;
+    .animate-rise-delay-2 {
+      animation: rise 0.7s 0.18s ease forwards;
     }
-    
-    .gradient-text {
-      background: linear-gradient(104deg, rgba(255,255,255,1) 5%, rgba(200,200,200,0.9) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .animate-rise-delay-3 {
+      animation: rise 0.7s 0.26s ease forwards;
     }
-    
-    .glass-button {
-      position: relative;
-      background: linear-gradient(104deg, rgba(253,253,253,0.05) 5%, rgba(240,240,228,0.1) 100%);
-      border: 2px solid rgba(255,255,255,0.05);
-      backdrop-filter: blur(25px);
-      transition: all 0.2s ease-in-out;
+    .animate-rise-delay-4 {
+      animation: rise 0.7s 0.34s ease forwards;
     }
-    
-    .glass-button:hover {
-      background: rgba(255,255,255,0.9);
-      color: #000000;
-      box-shadow: 0 10px 40px rgba(255,255,255,0.1);
+    /* 噪點紋理背景 */
+    .noise-bg {
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
     }
-    
-    .project-card {
-      background: linear-gradient(104deg, #262626 5%, rgba(240,240,228,0.05) 100%);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-    
-    .project-card:hover {
-      border-color: rgba(255,255,255,0.3);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(255,255,255,0.05);
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .animate-fade-in-up {
-      animation: fadeInUp 1s ease-out forwards;
-    }
-    
-    .bg-grain {
-      background-image: 
-        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    /* 圖片像素化渲染 */
+    .pixelated {
+      image-rendering: pixelated;
     }
   </style>
 </head>
-<body class="bg-grain">
-  <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center px-6 pt-0">
-    <div class="max-w-7xl w-full mx-auto">
-      <!-- Mobile Layout (Vertical): logos top-left, title bottom-left -->
-      <div class="flex flex-col md:hidden w-full min-h-[calc(100vh-6rem)] relative pt-18">
-        <!-- Top-left: Profile picture and title -->
-        <a href="#contact" class="flex items-center gap-3 self-start animate-fade-in-up mb-2 cursor-pointer">
-          <img src="assets/image/404chen.png" alt="404chen" class="w-14 h-14 rounded-full object-cover border-2 border-white/10 flex-shrink-0">
-          <h2 class="font-domaine text-2xl tracking-tight text-white">404 Chen</h2>
-        </a>
-        
-        <!-- Description (center) -->
-        <p class="text-base text-[#ccc] max-w-sm mb-4 leading-relaxed animate-fade-in-up self-start whitespace-pre-line" style="animation-delay: 0.1s;">
-Minimalist App developer
-from productivity tools to lifestyle apps
-Posting every day
-        </p>
-        <a href="mailto:404chenhavefun@gmail.com" class="text-[0.8em] text-[#ccc] hover:text-white transition-colors self-start mb-8 flex items-center gap-2 animate-fade-in-up" style="animation-delay: 0.15s;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span>404chenhavefun@gmail.com</span>
-        </a>
-        
-        <!-- Links Grid with section titles (per list.md) -->
-        <div class="w-full space-y-6 animate-fade-in-up" style="animation-delay: 0.3s;">
-          <!-- APP -->
-          <div>
-            <h3 class="text-sm font-semibold text-[#ccc] mb-3 self-start">APP</h3>
-            <div class="grid grid-cols-3 gap-3">
-              <a href="https://sushishots.dollarbasellc.com/" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <img src="assets/image/02_sushishots.png" alt="Sushi Shots" class="w-10 h-10 object-contain self-start flex-shrink-0">
-                <div class="mt-auto self-start w-full">
-                  <span class="text-xs font-medium text-white block">Sushi Shots</span>
-                  <span class="text-[10px] text-[#ccc] mt-1 block leading-tight">Get a clean APP screen shots in under 5 min</span>
-                </div>
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.challog.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <img src="assets/image/01_challog.png" alt="Challog" class="w-10 h-10 object-contain self-start flex-shrink-0">
-                <div class="mt-auto self-start w-full">
-                  <span class="text-xs font-medium text-white block">Challog</span>
-                  <span class="text-[10px] text-[#ccc] mt-1 block leading-tight">A challenge tracker</span>
-                </div>
-              </a>
-            </div>
-          </div>
+<body class="bg-[#0e0e0c] text-[#ece9dc] font-['DM_Sans'] scroll-smooth">
+  <!-- 噪點背景層 -->
+  <div class="noise-bg"></div>
 
-          <!-- Recommand -->
-          <div>
-            <h3 class="text-sm font-semibold text-[#ccc] mb-3 self-start">Recommand</h3>
-            <div class="grid grid-cols-3 gap-3">
-              <a href="https://amzn.to/4pTD7x7" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <div class="w-8 h-8 flex items-center justify-center self-start flex-shrink-0 text-xl">💡</div>
-                <div class="mt-auto self-start w-full">
-                  <span class="text-xs font-medium text-white block">LED Light</span>
-                  <span class="text-[10px] text-[#ccc] mt-1 block leading-tight">My table light</span>
-                </div>
-              </a>
-            </div>
-          </div>
+  <!-- 導航欄 -->
+  <nav class="sticky top-0 z-[100] flex items-center justify-between px-8 py-[12.6px] bg-[#0e0e0c]/85 backdrop-blur-[20px]">
+    <h1 class="font-['Syne'] font-extrabold text-[40px] tracking-[-0.3px] text-[#ece9dc]">Elena Chen</h1>
+    <div class="flex items-center gap-1.5">
+      <!-- X -->
+      <a href="https://x.com/404chenhavefun" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="X">
+        <span class="font-['Syne'] font-extrabold text-[13px]">𝕏</span>
+      </a>
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@404_chen" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="TikTok">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </a>
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/404chen_" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="Instagram">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <!-- YouTube -->
+      <a href="https://youtube.com/@404chenhavefun" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="YouTube">
+        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+      </a>
+    </div>
+  </nav>
 
-          <!-- account -->
-          <div>
-            <h3 class="text-sm font-semibold text-[#ccc] mb-3 self-start">Account</h3>
-            <div class="grid grid-cols-3 gap-3">
-              <a href="https://x.com/404chenhavefun" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <div class="w-8 h-8 flex items-center justify-center self-start flex-shrink-0 text-white font-bold text-lg">𝕏</div>
-                <span class="text-xs font-medium text-white mt-auto self-start">X</span>
-              </a>
-              <a href="https://www.tiktok.com/@404_chen" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <div class="w-8 h-8 flex items-center justify-center self-start flex-shrink-0 text-white [&>svg]:w-6 [&>svg]:h-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                </div>
-                <span class="text-xs font-medium text-white mt-auto self-start">TikTok</span>
-              </a>
-              <a href="https://www.instagram.com/404chen_" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <div class="w-8 h-8 flex items-center justify-center self-start flex-shrink-0 text-white [&>svg]:w-6 [&>svg]:h-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                </div>
-                <span class="text-xs font-medium text-white mt-auto self-start">Instagram</span>
-              </a>
-              <a href="https://youtube.com/@404chenhavefun" target="_blank" rel="noopener noreferrer" 
-                 class="project-card rounded-lg p-3 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                <div class="w-8 h-8 flex items-center justify-center self-start flex-shrink-0 text-white [&>svg]:w-6 [&>svg]:h-6">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-                </div>
-                <span class="text-xs font-medium text-white mt-auto self-start">YouTube</span>
-              </a>
-            </div>
-          </div>
+  <!-- 頁面容器 -->
+  <div class="max-w-[860px] mx-auto pt-[52px] px-6 pb-20">
+    <!-- 個人簡介區域 -->
+    <div class="mb-10 opacity-0 animate-rise">
+      <div class="flex items-start gap-4">
+        <img src="assets/image/404chen.png" alt="Elena Chen" class="w-[46px] h-[46px] rounded-full bg-[#171715] border border-[rgba(255,255,255,0.05)] object-cover flex-shrink-0">
+        <div class="flex-1">
+          <p class="text-sm text-white/80 leading-[1.7] mb-2">
+            I'm 404 from Taiwan and currently traveling in Japan.<br>
+            Building from productivity tools to lifestyle apps.<br>
+            I post my development journey every day.<br><br>
+            Currently looking for a <span class="text-[#fff] font-semibold">co founder</span> to build cool stuff.<br>
+            If you're interested in building fun projects together, feel free to reach out.
+          </p>
+          <a href="mailto:404chenhavefun@gmail.com" class="inline-flex items-center gap-1.5 text-[12.5px] text-white/70 no-underline transition-colors hover:text-white/90">
+            <svg class="w-[13px] h-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            MAIL
+          </a>
         </div>
       </div>
+    </div>
 
-      <!-- Desktop Layout (Horizontal) -->
-      <div class="hidden md:flex flex-row items-start justify-between gap-12 md:pt-24">
-        <!-- Left Content: Profile picture and description -->
-        <div class="flex-1 max-w-md animate-fade-in-up">
-          <a href="#contact" class="flex items-center gap-4 mb-0 cursor-pointer">
-            <img src="assets/image/404chen.png" alt="404chen" class="w-20 h-20 rounded-full object-cover border-2 border-white/10 flex-shrink-0">
-            <h2 class="font-domaine text-4xl tracking-tight text-white">I'm 404</h2>
-          </a>
+    <!-- 過濾器 -->
+    <div class="flex gap-[7px] mb-7 flex-wrap opacity-0 animate-rise-delay-1">
+      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-[#ece9dc] text-[#0e0e0c] font-['DM_Sans'] text-[12.5px] font-medium cursor-pointer transition-all duration-[180ms] border-transparent active" data-filter="all">All</button>
+      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-transparent text-white/70 font-['DM_Sans'] text-[12.5px] cursor-pointer transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90" data-filter="app">App</button>
+      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-transparent text-white/70 font-['DM_Sans'] text-[12.5px] cursor-pointer transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90" data-filter="game">Game</button>
+      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-transparent text-white/70 font-['DM_Sans'] text-[12.5px] cursor-pointer transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90" data-filter="recommend">Recommend</button>
+    </div>
+
+    <!-- 特色項目卡片: Who is Human? -->
+    <div class="featured-wrap mb-3.5 opacity-0 animate-rise-delay-2" data-tags="game">
+      <div class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[20px] overflow-hidden relative transition-[border-color,transform] duration-[220ms] hover:border-[rgba(200,240,102,0.2)] hover:-translate-y-0.5">
+        <!-- 頂部裝飾線 -->
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(200,240,102,0.25)] to-transparent"></div>
+        
+        <div class="grid grid-cols-[auto_1fr] gap-0 max-[560px]:grid-cols-1">
+          <!-- 圖片欄 -->
+          <div class="w-40 min-h-[220px] bg-[#1a2a3a] relative overflow-hidden flex items-center justify-center flex-shrink-0 max-[560px]:w-full max-[560px]:h-[180px]">
+            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human gameplay" class="w-full h-full object-cover object-[center_top] pixelated opacity-92">
+            <!-- 圖片漸變疊加 -->
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-60% to-[#171715] max-[560px]:bg-gradient-to-b max-[560px]:via-60%"></div>
+          </div>
           
-          <p class="text-1xlg text-[#fff] leading-relaxed whitespace-pre-line mb-10">
-Minimalist App developer
-from productivity tools to lifestyle apps
-Posting every day
-          </p>
-          <a href="mailto:404chenhavefun@gmail.com" class="text-[0.8em] text-[#999] hover:text-white transition-colors flex items-center gap-2 animate-fade-in-up" style="animation-delay: 0.3s;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <span>404chenhavefun@gmail.com</span>
-          </a>
-        </div>
-
-        <!-- Right Content: APP, Recommand, account sections -->
-        <div class="flex-1 max-w-2xl animate-fade-in-up" style="animation-delay: 0.2s;">
-          <div class="space-y-8">
-            <!-- APP -->
-            <div>
-              <h3 class="text-base font-semibold text-[#ccc] mb-4">APP</h3>
-              <div class="grid grid-cols-3 gap-4">
-                <a href="https://sushishots.dollarbasellc.com/" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <img src="assets/image/02_sushishots.png" alt="Sushi Shots" class="w-12 h-12 object-contain self-start flex-shrink-0">
-                  <div class="mt-auto self-start w-full">
-                    <span class="text-sm font-medium text-white block">Sushi Shots</span>
-                    <span class="text-[11px] text-[#ccc] mt-1 block leading-tight">Get a clean APP screen shots in under 5 min</span>
-                  </div>
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=com.challog.app&pcampaignid=web_share" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <img src="assets/image/01_challog.png" alt="Challog" class="w-12 h-12 object-contain self-start flex-shrink-0">
-                  <div class="mt-auto self-start w-full">
-                    <span class="text-sm font-medium text-white block">Challog</span>
-                    <span class="text-[11px] text-[#ccc] mt-1 block leading-tight">A challenge tracker</span>
-                  </div>
-                </a>
-              </div>
+          <!-- 文字欄 -->
+          <div class="p-[26px_26px_22px] flex flex-col">
+            <!-- 徽章 -->
+            <div class="flex gap-1.5 mb-3.5 flex-wrap">
+              <span class="text-[10px] font-semibold tracking-[0.08em] uppercase px-[9px] py-0.75 rounded-full border bg-[rgba(200,240,102,0.08)] border-[rgba(200,240,102,0.25)] text-[#fff]">✦ Featured</span>
+              <span class="text-[10px] font-semibold tracking-[0.08em] uppercase px-[9px] py-0.75 rounded-full border bg-white/4 border-[rgba(255,255,255,0.05)] text-white/70">Game</span>
+              <span class="text-[10px] font-semibold tracking-[0.08em] uppercase px-[9px] py-0.75 rounded-full border bg-green-500/8 border-green-500/25 text-green-400">● Live</span>
             </div>
-
-            <!-- Recommand -->
-            <div>
-              <h3 class="text-base font-semibold text-[#ccc] mb-4">Recommand</h3>
-              <div class="grid grid-cols-3 gap-4">
-                <a href="https://amzn.to/4pTD7x7" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <div class="w-10 h-10 flex items-center justify-center self-start flex-shrink-0 text-2xl">💡</div>
-                  <div class="mt-auto self-start w-full">
-                    <span class="text-sm font-medium text-white block">LED Light</span>
-                    <span class="text-[11px] text-[#ccc] mt-1 block leading-tight">My table light</span>
-                  </div>
-                </a>
-              </div>
+            
+            <!-- 標題 -->
+            <h2 class="font-['Syne'] font-extrabold text-[26px] tracking-[-0.5px] mb-2 leading-[1.1] text-[#ece9dc]">Who is<br>Human?</h2>
+            
+            <!-- 描述 -->
+            <p class="text-[13.5px] text-white/70 leading-[1.65] mb-5">A social deduction game — can you tell the difference between human and AI? Join early and get notified at launch.</p>
+            
+            <!-- 電子郵件表單 -->
+            <div class="flex gap-[7px]">
+              <input type="email" id="wih-email" placeholder="your@email.com" class="flex-1 bg-[#0e0e0c] border border-[rgba(255,255,255,0.05)] rounded-[10px] px-3.5 py-2.5 text-[#ece9dc] font-['DM_Sans'] text-[13px] outline-none transition-[border-color] duration-[180ms] placeholder:text-white/50 focus:border-[rgba(200,240,102,0.35)] min-w-0">
+              <button id="email-submit-btn" class="email-btn bg-[#fff] text-[#111] border-none rounded-[10px] px-4 py-2.5 font-['Syne'] text-[13px] font-bold whitespace-nowrap cursor-pointer transition-opacity duration-[180ms] hover:opacity-85 flex-shrink-0">Notify me</button>
             </div>
-
-            <!-- account -->
-            <div>
-              <h3 class="text-base font-semibold text-[#ccc] mb-4">Account</h3>
-              <div class="grid grid-cols-3 gap-4">
-                <a href="https://x.com/404chenhavefun" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <div class="w-10 h-10 flex items-center justify-center self-start flex-shrink-0 text-white font-bold text-xl">𝕏</div>
-                  <span class="text-sm font-medium text-white mt-auto self-start">X</span>
-                </a>
-                <a href="https://www.tiktok.com/@404_chen" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <div class="w-10 h-10 flex items-center justify-center self-start flex-shrink-0 text-white [&>svg]:w-7 [&>svg]:h-7">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                  </div>
-                  <span class="text-sm font-medium text-white mt-auto self-start">TikTok</span>
-                </a>
-                <a href="https://www.instagram.com/404chen_" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <div class="w-10 h-10 flex items-center justify-center self-start flex-shrink-0 text-white [&>svg]:w-7 [&>svg]:h-7">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                  </div>
-                  <span class="text-sm font-medium text-white mt-auto self-start">Instagram</span>
-                </a>
-                <a href="https://youtube.com/@404chenhavefun" target="_blank" rel="noopener noreferrer" 
-                   class="project-card rounded-lg p-4 flex flex-col aspect-square hover:scale-105 transition-transform relative">
-                  <div class="w-10 h-10 flex items-center justify-center self-start flex-shrink-0 text-white [&>svg]:w-7 [&>svg]:h-7">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-                  </div>
-                  <span class="text-sm font-medium text-white mt-auto self-start">YouTube</span>
-                </a>
-              </div>
-            </div>
+            
+            <!-- 成功訊息 -->
+            <div id="email-success" class="hidden text-[13px] text-green-400 mt-2">✓ You're on the list!</div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-24 px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="font-domaine text-5xl font-normal mb-0">Get in Touch</h2>
-      <p class="text-[#ccc] text-1xl mb-6">
-        Need support? Let's talk about it.
-      </p>
-      <a href="https://x.com/404chenhavefun" target="_blank" rel="noopener noreferrer"
-         class="glass-button inline-flex items-center justify-center px-8 py-4 rounded-2xl text-white font-semibold text-lg">
+    <!-- 項目網格 -->
+    <div class="mb-2.5 opacity-0 animate-rise-delay-3">
+      <p class="text-[10px] font-semibold tracking-[0.14em] uppercase text-white/70 mb-2.5" style="margin-top:26px;">Projects</p>
+      <div class="grid grid-cols-3 gap-2 max-[480px]:grid-cols-2">
+        <!-- Challog -->
+        <div class="card-wrap" data-tags="app">
+          <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank" class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[14px] p-4 flex flex-col aspect-square no-underline transition-[border-color,transform] duration-200 hover:border-[rgba(255,255,255,0.12)] hover:-translate-y-1 relative bg-white/5 border-[rgba(255,255,255,0.08)]">
+            <div class="absolute top-[11px] right-[11px] w-1.25 h-1.25 rounded-full bg-green-500"></div>
+            <img src="assets/image/01_challog.png" alt="Challog" class="w-[49.5px] h-[49.5px] mb-auto object-contain flex-shrink-0">
+            <div>
+              <div class="font-['Syne'] text-[13px] font-bold text-[#ece9dc] mb-0.5">Challog</div>
+              <div class="text-sm text-white/70 leading-[1.4]">A challenge tracker to build your streaks</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Sushi Shots -->
+        <div class="card-wrap" data-tags="app">
+          <a href="https://sushishots.dollarbasellc.com/" target="_blank" class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[14px] p-4 flex flex-col aspect-square no-underline transition-[border-color,transform] duration-200 hover:border-[rgba(255,255,255,0.12)] hover:-translate-y-1 relative">
+            <img src="assets/image/02_sushishots.png" alt="Sushi Shots" class="w-[49.5px] h-[49.5px] mb-auto object-contain flex-shrink-0">
+            <div>
+              <div class="font-['Syne'] text-[13px] font-bold text-[#ece9dc] mb-0.5">Sushi Shots</div>
+              <div class="text-sm text-white/70 leading-[1.4]">Clean App screenshots in under 5 min</div>
+            </div>
+          </a>
+        </div>
+
+        <!-- LED Light -->
+        <div class="card-wrap" data-tags="recommend">
+          <a href="https://amzn.to/4pTD7x7" target="_blank" class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[14px] p-4 flex flex-col aspect-square no-underline transition-[border-color,transform] duration-200 hover:border-[rgba(255,255,255,0.12)] hover:-translate-y-1 relative">
+            <div class="text-[33px] mb-auto leading-none">💡</div>
+            <div>
+              <div class="font-['Syne'] text-[13px] font-bold text-[#ece9dc] mb-0.5">LED Light</div>
+              <div class="text-sm text-white/70 leading-[1.4]">My go-to table light</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 聯繫區域 -->
+    <div class="text-center pt-14 pb-0 opacity-0 animate-rise-delay-4" id="contact">
+      <h2 class="font-['Syne'] font-extrabold text-[38px] tracking-[-1px] mb-2 text-[#ece9dc]">Get in Touch</h2>
+      <a href="https://x.com/404chenhavefun" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-[12px] border border-[rgba(255,255,255,0.12)] text-[#ece9dc] no-underline text-sm font-medium transition-all duration-200 hover:bg-[#ece9dc] hover:text-[#0e0e0c] hover:border-transparent">
         @404chenhavefun
       </a>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="border-t border-white/5 py-12 px-6">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-      <div class="text-[#ccc] text-sm">
-        © 2026 Dollarbase LLC. All rights reserved.
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-6">
-        <div class="flex gap-4">
-          <a href="https://x.com/404chenhavefun" target="_blank" rel="noopener noreferrer" 
-             class="text-[#ccc] hover:text-white transition-colors text-sm">X</a>
-          <a href="https://www.tiktok.com/@404_chen" target="_blank" rel="noopener noreferrer" 
-             class="text-[#ccc] hover:text-white transition-colors text-sm">TikTok</a>
-          <a href="https://www.instagram.com/404chen_" target="_blank" rel="noopener noreferrer" 
-             class="text-[#ccc] hover:text-white transition-colors text-sm">Instagram</a>
-          <a href="https://youtube.com/@404chenhavefun" target="_blank" rel="noopener noreferrer" 
-             class="text-[#ccc] hover:text-white transition-colors text-sm">YouTube</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    <!-- 頁腳 -->
+    <footer class="mt-14 pt-[20px] border-t border-[rgba(255,255,255,0.05)] flex justify-between items-center gap-3 flex-wrap">
+      <span class="text-[11.5px] text-white/70">© 2026 Dollarbase LLC. All rights reserved.</span>
+    </footer>
+  </div>
 
   <script>
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 等待 DOM 和 Supabase 庫載入完成
+    document.addEventListener('DOMContentLoaded', function() {
+      // Supabase 配置
+      const SUPABASE_URL = 'https://cxezjrmjjwcqfokvfsmn.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_otmakmoUvWnZyY1p-7Sk9A_OPn_LbC8';
+      
+      // 初始化 Supabase 客戶端
+      let supabaseClient = null;
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      } else {
+        console.error('Supabase library not loaded');
+      }
+
+      // 過濾器功能
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          // 移除所有 active 狀態
+          document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-[#ece9dc]', 'text-[#0e0e0c]', 'border-transparent');
+            b.classList.add('bg-transparent', 'text-white/70', 'border-[rgba(255,255,255,0.05)]');
+          });
+          
+          // 添加 active 狀態到當前按鈕
+          btn.classList.add('active', 'bg-[#ece9dc]', 'text-[#0e0e0c]', 'border-transparent');
+          btn.classList.remove('bg-transparent', 'text-white/70', 'border-[rgba(255,255,255,0.05)]');
+          
+          // 過濾項目
+          const filter = btn.dataset.filter;
+          document.querySelectorAll('.featured-wrap, .card-wrap').forEach(el => {
+            const tags = el.dataset.tags || '';
+            if (filter === 'all' || tags.includes(filter)) {
+              el.classList.remove('hidden');
+            } else {
+              el.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // 電子郵件表單處理
+      async function handleEmail() {
+        const inp = document.getElementById('wih-email');
+        const suc = document.getElementById('email-success');
+        const btn = document.getElementById('email-submit-btn');
+        const val = inp.value.trim();
+        
+        // 驗證
+        if (!val || !val.includes('@')) {
+          inp.classList.add('border-red-500/50');
+          setTimeout(() => inp.classList.remove('border-red-500/50'), 1200);
+          return;
         }
+
+        // 檢查 Supabase 客戶端
+        if (!supabaseClient) {
+          alert('Database connection not available. Please refresh the page.');
+          return;
+        }
+
+        // 儲存到 Supabase
+        try {
+          const { data, error } = await supabaseClient
+            .from('email_subscriptions_whoishuman')
+            .insert([
+              { 
+                email: val,
+                source: 'who_is_human',
+                created_at: new Date().toISOString()
+              }
+            ]);
+          
+          if (error) throw error;
+          
+          // 成功
+          inp.classList.add('hidden');
+          btn.classList.add('hidden');
+          suc.classList.remove('hidden');
+        } catch (error) {
+          console.error('Error saving email:', error);
+          // 如果是重複的 email，顯示友好訊息
+          if (error.code === '23505') {
+            alert('This email is already subscribed!');
+          } else {
+            alert('Sorry, something went wrong. Please try again later.');
+          }
+        }
+      }
+
+      // 綁定按鈕點擊事件
+      const emailBtn = document.getElementById('email-submit-btn');
+      if (emailBtn) {
+        emailBtn.addEventListener('click', handleEmail);
+      }
+
+      // Enter 鍵提交
+      const emailInput = document.getElementById('wih-email');
+      if (emailInput) {
+        emailInput.addEventListener('keydown', e => {
+          if (e.key === 'Enter') handleEmail();
+        });
+      }
+
+      // 平滑滾動
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
       });
     });
   </script>
