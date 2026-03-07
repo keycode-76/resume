@@ -1,63 +1,49 @@
-# Dollarbase LLC - 官方網站
+# Dollarbase LLC - Official Website
 
-這是 Dollarbase LLC 的官方網站，使用純 HTML、CSS 和 JavaScript 構建。
+Official website for Dollarbase LLC, built with pure HTML, CSS, and JavaScript.
 
-## 功能特色
+## Features
 
-- 🎨 現代化的設計風格
-- 📱 響應式布局，支援多種螢幕尺寸
-- 🚀 流暢的使用者體驗
-- 🔗 整合外部連結（Challog 專案）
-- ✨ 平滑滾動導航
+- Modern design
+- Responsive layout
+- Smooth user experience
+- External integrations (Challog project)
 
-## 技術棧
+## Tech Stack
 
 - HTML5
 - CSS3 (Tailwind CSS)
-- JavaScript (原生)
-- Google Fonts (Inter & Domaine Display Narrow)
+- Vanilla JavaScript
+- Google Fonts
 
-## 使用方式
+## Getting Started
 
-### 本地開發
+### Local Development
 
-1. 直接在瀏覽器中打開 `index.html` 文件
-2. 或使用本地服務器：
+Open `index.html` directly in your browser, or use a local server:
 
 ```bash
-# 使用 Python
+# Python
 python -m http.server 8000
 
-# 或使用 Node.js (需要安裝 http-server)
+# Node.js
 npx http-server -p 8000
 ```
 
-然後在瀏覽器中訪問 `http://localhost:8000`
+Visit `http://localhost:8000`
 
-### 部署
+### Deployment
 
-將 `index.html` 文件上傳到任何靜態網站託管服務，例如：
-- GitHub Pages
-- Netlify
-- Vercel
-- 任何 Web 服務器
+Upload `index.html` to any static hosting service (GitHub Pages, Netlify, Vercel, etc.)
 
-## 專案結構
+## Project Structure
 
 ```
 .
-├── index.html          # 主 HTML 文件（包含所有內容）
-└── README.md          # 專案說明文檔
+├── index.html          # Main HTML file
+└── README.md          # Project documentation
 ```
 
-## 網站內容
+## License
 
-- **Header**: 頂部導航欄
-- **Hero Section**: 主頁英雄區塊，展示公司介紹和 Challog 專案
-- **Projects Section**: 專案展示區塊
-- **Contact Section**: 聯絡資訊區塊
-- **Footer**: 頁尾
-
-## 授權
-
-© 2025 Dollarbase LLC. All rights reserved.
+© 2026 Dollarbase LLC. All rights reserved.

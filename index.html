@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <style>
     @keyframes rise {
       from { opacity: 0; transform: translateY(14px); }
@@ -196,19 +195,27 @@
   </div>
 
   <script>
-    // 等待 DOM 和 Supabase 庫載入完成
+    // 等待 DOM 載入完成
     document.addEventListener('DOMContentLoaded', function() {
-      // Supabase 配置
-      const SUPABASE_URL = 'https://cxezjrmjjwcqfokvfsmn.supabase.co';
-      const SUPABASE_ANON_KEY = 'sb_publishable_otmakmoUvWnZyY1p-7Sk9A_OPn_LbC8';
+      // ============================================
+      // 後端配置選擇：Google Sheets 或 Notion
+      // ============================================
       
-      // 初始化 Supabase 客戶端
-      let supabaseClient = null;
-      if (window.supabase) {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      } else {
-        console.error('Supabase library not loaded');
-      }
+      // 選項 1: Google Sheets (推薦 - 可直接使用)
+      const BACKEND_TYPE = 'google_sheets'; // 或 'notion'
+      
+      // Google Sheets 配置
+      const GOOGLE_SHEETS_CONFIG = {
+        // Google Apps Script Web App URL
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyjb-mXodwiqCsyagxV0-cGFBfHZuVSINBT5RCES3OtPwQA7K7DVvMnIdjwugbE_VsQMw/exec'
+      };
+      
+      // Notion 配置（需要 serverless function）
+      const NOTION_CONFIG = {
+        // 請替換為您的 serverless function URL
+        // 設置說明請參考 SETUP_GUIDE.md
+        API_URL: 'YOUR_SERVERLESS_FUNCTION_URL_HERE'
+      };
 
       // 過濾器功能
       document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -250,25 +257,21 @@
           return;
         }
 
-        // 檢查 Supabase 客戶端
-        if (!supabaseClient) {
-          alert('Database connection not available. Please refresh the page.');
-          return;
-        }
+        // 禁用按鈕防止重複提交
+        btn.disabled = true;
+        btn.style.opacity = '0.6';
+        btn.textContent = 'Submitting...';
 
-        // 儲存到 Supabase
         try {
-          const { data, error } = await supabaseClient
-            .from('email_subscriptions_whoishuman')
-            .insert([
-              { 
-                email: val,
-                source: 'who_is_human',
-                created_at: new Date().toISOString()
-              }
-            ]);
+          let success = false;
           
-          if (error) throw error;
+          if (BACKEND_TYPE === 'google_sheets') {
+            success = await saveToGoogleSheets(val);
+          } else if (BACKEND_TYPE === 'notion') {
+            success = await saveToNotion(val);
+          } else {
+            throw new Error('Invalid backend type. Please configure BACKEND_TYPE.');
+          }
           
           // 成功
           inp.classList.add('hidden');
@@ -276,13 +279,134 @@
           suc.classList.remove('hidden');
         } catch (error) {
           console.error('Error saving email:', error);
-          // 如果是重複的 email，顯示友好訊息
-          if (error.code === '23505') {
-            alert('This email is already subscribed!');
-          } else {
-            alert('Sorry, something went wrong. Please try again later.');
-          }
+          alert(error.message || 'Sorry, something went wrong. Please try again later.');
+          // 恢復按鈕狀態
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.textContent = 'Notify me';
         }
+      }
+
+      // 儲存到 Google Sheets（使用表單提交避免 CORS 問題）
+      function saveToGoogleSheets(email) {
+        return new Promise((resolve, reject) => {
+          if (!GOOGLE_SHEETS_CONFIG.WEB_APP_URL || GOOGLE_SHEETS_CONFIG.WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+            reject(new Error('Please configure Google Sheets Web App URL in the code.'));
+            return;
+          }
+
+          // 創建唯一的 iframe ID
+          const iframeId = 'google-sheets-submit-' + Date.now();
+          
+          // 監聽 postMessage（在創建 iframe 之前設置）
+          const messageHandler = function(event) {
+            // 驗證來源（可選，但建議）
+            if (!event.data || typeof event.data !== 'object') return;
+            
+            // 清理監聽器
+            window.removeEventListener('message', messageHandler);
+            
+            // 清理 iframe 和表單
+            const iframe = document.getElementById(iframeId);
+            const form = document.getElementById('form-' + iframeId);
+            if (iframe) document.body.removeChild(iframe);
+            if (form) document.body.removeChild(form);
+
+            // 處理響應
+            if (event.data.error) {
+              reject(new Error(event.data.error));
+            } else {
+              resolve(true);
+            }
+          };
+          
+          window.addEventListener('message', messageHandler);
+
+          // 創建隱藏的 iframe 用於提交表單
+          const iframe = document.createElement('iframe');
+          iframe.id = iframeId;
+          iframe.style.display = 'none';
+          iframe.name = iframeId;
+          document.body.appendChild(iframe);
+
+          // 創建表單
+          const form = document.createElement('form');
+          form.id = 'form-' + iframeId;
+          form.method = 'POST';
+          form.action = GOOGLE_SHEETS_CONFIG.WEB_APP_URL;
+          form.target = iframeId;
+          form.enctype = 'application/x-www-form-urlencoded';
+          form.style.display = 'none';
+
+          // 添加數據字段
+          const emailInput = document.createElement('input');
+          emailInput.type = 'hidden';
+          emailInput.name = 'email';
+          emailInput.value = email;
+          form.appendChild(emailInput);
+
+          const sourceInput = document.createElement('input');
+          sourceInput.type = 'hidden';
+          sourceInput.name = 'source';
+          sourceInput.value = 'who_is_human';
+          form.appendChild(sourceInput);
+
+          const timestampInput = document.createElement('input');
+          timestampInput.type = 'hidden';
+          timestampInput.name = 'timestamp';
+          timestampInput.value = new Date().toISOString();
+          form.appendChild(timestampInput);
+
+          document.body.appendChild(form);
+
+          // 設置超時（10秒後假設成功，給重定向足夠時間）
+          setTimeout(() => {
+            window.removeEventListener('message', messageHandler);
+            const iframeEl = document.getElementById(iframeId);
+            const formEl = document.getElementById('form-' + iframeId);
+            if (iframeEl && document.body.contains(iframeEl)) {
+              document.body.removeChild(iframeEl);
+              document.body.removeChild(formEl);
+              // 超時時假設成功（因為無法確認，但通常表示已提交）
+              resolve(true);
+            }
+          }, 10000);
+
+          // 提交表單
+          form.submit();
+        });
+      }
+
+      // 儲存到 Notion (通過 serverless function)
+      async function saveToNotion(email) {
+        if (!NOTION_CONFIG.API_URL || NOTION_CONFIG.API_URL === 'YOUR_SERVERLESS_FUNCTION_URL_HERE') {
+          throw new Error('Please configure Notion API URL in the code.');
+        }
+
+        const response = await fetch(NOTION_CONFIG.API_URL, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            source: 'who_is_human',
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(errorText || 'Failed to save to Notion');
+        }
+
+        const result = await response.json();
+        if (result.error) {
+          throw new Error(result.error);
+        }
+        
+        return true;
       }
 
       // 綁定按鈕點擊事件
