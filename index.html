@@ -773,9 +773,9 @@
             </div>
           </a>
         </div>
-        <div class="done-product-item">
+        <div class="done-product-item who-is-human">
           <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank">
-            <img src="assets/image/01_challog.png" alt="Challog">
+            <img src="assets/image/screenshot_challog2.0.png" alt="Challog">
             <div class="done-product-info">
               <div class="done-product-title">Challog</div>
               <div class="done-product-desc">A challenge tracker to build your streaks</div>
@@ -836,7 +836,7 @@ const CARDS = [
   {
     bg: '#E8F5E9',
     color: '#1A1A1A',
-    image: 'assets/image/01_challog.png',
+    image: 'assets/image/screenshot_challog2.0.png',
     tag: 'App',
     title: 'Challog',
     body: 'A challenge tracker to build your streaks and achieve your goals.',
@@ -1117,13 +1117,15 @@ function createCard(data, idx) {
     link: data.link
   });
 
-  // 檢查是否為 Who is Human（使用 source 或 title 判斷）
+  // 檢查是否為 Who is Human 或 Challog（使用 source 或 title 判斷）
   const isWhoIsHuman = data.source === 'who_is_human' || data.title.includes('Who is');
+  const isChallog = data.source === 'challog' || data.title.includes('Challog');
+  const useFullImage = isWhoIsHuman || isChallog;
   
   let imageOrEmoji;
   if (data.image) {
-    if (isWhoIsHuman) {
-      // Who is Human: 圖片占滿上方，下方漸層
+    if (useFullImage) {
+      // Who is Human 和 Challog: 圖片占滿上方，下方漸層
       imageOrEmoji = `
         <img src="${data.image}" alt="${data.title}" class="card-image-full">
         <div class="card-image-gradient"></div>
@@ -1137,7 +1139,7 @@ function createCard(data, idx) {
     imageOrEmoji = `<div class="card-emoji">${data.emoji || '📱'}</div>`;
   }
 
-  const contentHTML = isWhoIsHuman 
+  const contentHTML = useFullImage 
     ? `<div class="card-content">
         <div class="card-tag">${data.tag}</div>
         <div class="card-title">${data.title.replace('\n','<br>')}</div>
