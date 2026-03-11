@@ -219,18 +219,6 @@
     z-index: 1; /* 圖片在底層 */
   }
 
-  .card-image-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60%;
-    background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.9) 80%, #FFFFFF 100%);
-    border-radius: 24px 24px 0 0;
-    pointer-events: none;
-    z-index: 2; /* 漸層在中間層 */
-  }
-
   .card.has-full-image {
     padding: 0;
     overflow: hidden;
@@ -242,13 +230,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 3; /* 文字內容在漸層上方 */
+    z-index: 3;
     padding: 36px 32px;
-    background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.9) 30%, transparent 100%);
-  }
-
-  .card-image-gradient {
-    background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.3) 85%, rgba(255,255,255,0.9) 98%, #FFFFFF 100%);
+    background: #FFFFFF;
   }
 
   .card-tag {
@@ -613,7 +597,7 @@
     flex-shrink: 0;
   }
 
-  /* Who is Human 左側圖片漸層 */
+  /* Who is Human 左側圖片樣式 */
   .done-product-item.who-is-human {
     padding: 0;
     overflow: hidden;
@@ -624,27 +608,15 @@
     align-items: center;
     gap: 0;
     position: relative;
-    min-height: 80px;
+    height: 80px;
   }
 
   .done-product-item.who-is-human img {
     width: 33.33%;
-    height: 80px;
+    height: 100%;
     object-fit: cover;
     flex-shrink: 0;
     position: relative;
-  }
-
-  .done-product-item.who-is-human a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 33.33%;
-    height: 80px;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.7) 80%, #FFFFFF 100%);
-    pointer-events: none;
-    z-index: 1;
   }
 
   .done-product-item.who-is-human .done-product-info {
@@ -655,7 +627,7 @@
     justify-content: center;
     position: relative;
     z-index: 2;
-    min-height: 80px;
+    height: 80px;
     box-sizing: border-box;
   }
 
@@ -748,9 +720,8 @@
       Gamer,<br>
       Artist,<br>
       <a href="https://x.com/404chenhavefun" target="_blank" ><strong>LETS CONNECT</strong></a><br><br>
-      
-      <p>& Build cool stuff together</p>
-      <p>Looking for <strong>co founder</strong> to build Cursor like pixel editor</p>
+      <!-- <p>& Build cool stuff together</p> -->
+      <!-- <p>Looking for <strong>co founder</strong> to build Cursor like pixel editor</p> -->
     </div>
 
     <div class="done-section">
@@ -1137,10 +1108,9 @@ function createCard(data, idx) {
   let imageOrEmoji;
   if (data.image) {
     if (useFullImage) {
-      // Who is Human 和 Challog: 圖片占滿上方，下方漸層
+      // Who is Human 和 Challog: 圖片占滿上方
       imageOrEmoji = `
         <img src="${data.image}" alt="${data.title}" class="card-image-full">
-        <div class="card-image-gradient"></div>
       `;
       card.classList.add('has-full-image');
     } else {
@@ -1178,8 +1148,6 @@ function createCard(data, idx) {
         console.error('圖片加載失敗:', data.image);
         // 圖片加載失敗時，移除全圖樣式，改為小圖標樣式
         card.classList.remove('has-full-image');
-        const gradient = card.querySelector('.card-image-gradient');
-        if (gradient) gradient.remove();
         img.className = 'card-image';
         img.style.width = '64px';
         img.style.height = '64px';

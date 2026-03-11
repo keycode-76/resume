@@ -6,8 +6,12 @@ export default defineConfig({
     port: 5173,
     strictPort: false, // 如果端口被占用，嘗試下一個可用端口
   },
-  publicDir: 'assets', // 將 assets 目錄作為 public 目錄，直接複製到 dist，不進行處理
+  // 使用默認的 public 目錄，會被複製到 dist 根目錄
   build: {
     copyPublicDir: true, // 確保複製 public 目錄
+    rollupOptions: {
+      input: 'index.html', // 明確指定入口文件
+    },
+    outDir: 'dist',
   }
 })
