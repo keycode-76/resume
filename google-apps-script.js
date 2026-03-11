@@ -1,15 +1,3 @@
-/**
- * Google Apps Script for Email Form Handler
- * 
- * 使用說明：
- * 1. 前往 Google Sheets，創建一個新的試算表
- * 2. 在第一行添加標題：Email | Source | Timestamp
- * 3. 點擊「擴充功能」→「Apps Script」
- * 4. 將此代碼貼上並儲存
- * 5. 點擊「部署」→「新增部署作業」→「網頁應用程式」
- * 6. 設置執行身分為「我」，存取權限為「所有人」
- * 7. 複製產生的 Web App URL 並更新到 index.html
- */
 
 function doPost(e) {
   try {
@@ -87,36 +75,59 @@ function doPost(e) {
       sheet.appendRow(['Email', 'Source', 'Timestamp']);
     }
     
-    // 檢查 email 是否已存在（從第 2 行開始檢查，第 1 行是標題）
+    // 檢查 email 是否已存在
     const emailColumn = 1; // Email 在第一欄
+    const sourceColumn = 2; // Source 在第二欄
     const lastRow = sheet.getLastRow();
+    let emailRow = -1;
     
+    // 從第 2 行開始查找（第 1 行是標題）
     if (lastRow > 1) {
-      const emails = sheet.getRange(2, emailColumn, lastRow - 1, 1).getValues().flat();
+      const emailRange = sheet.getRange(2, emailColumn, lastRow - 1, 1);
+      const emails = emailRange.getValues().flat();
       
-      if (emails.includes(email)) {
-        const errorResponse = { error: 'This email is already subscribed!' };
-        if (isFormSubmit) {
-          const htmlContent = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' +
-            '<script type="text/javascript">' +
-            'try {' +
-            '  if (window.parent && window.parent !== window) {' +
-            '    window.parent.postMessage(' + JSON.stringify(errorResponse) + ', "*");' +
-            '  }' +
-            '} catch(e) {}' +
-            '</script>' +
-            '<p>Error: This email is already subscribed!</p>' +
-            '</body></html>';
-          return HtmlService.createHtmlOutput(htmlContent)
-            .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+      // 查找 email 所在的行（從 0 開始的索引，需要 +2 轉換為實際行號）
+      for (let i = 0; i < emails.length; i++) {
+        if (emails[i] === email) {
+          emailRow = i + 2; // 轉換為實際行號（+2 因為從第 2 行開始，且索引從 0 開始）
+          break;
         }
-        return ContentService.createTextOutput(JSON.stringify(errorResponse))
-          .setMimeType(ContentService.MimeType.JSON);
       }
     }
     
-    // 添加新行
-    sheet.appendRow([email, source, timestamp]);
+    if (emailRow > 0) {
+      // Email 已存在，更新該行的 source
+      const existingSource = sheet.getRange(emailRow, sourceColumn).getValue();
+      
+      // 如果 source 是 landing_page，不更新（只保留右滑的 source）
+      if (source === 'landing_page') {
+        // landing_page 只在第一次創建時保存，之後不再更新
+        // 更新 timestamp
+        sheet.getRange(emailRow, 3).setValue(timestamp);
+      } else {
+        // 處理右滑的 source（排除 landing_page）
+        if (existingSource && existingSource !== source) {
+          // 將現有的 source 分割，排除 landing_page
+          const sources = existingSource.split(',').map(s => s.trim()).filter(s => s !== 'landing_page');
+          
+          // 檢查是否已經包含這個 source
+          if (!sources.includes(source)) {
+            // 追加新的 source（不包含 landing_page）
+            sources.push(source);
+            sheet.getRange(emailRow, sourceColumn).setValue(sources.join(', '));
+          }
+        } else if (!existingSource || existingSource === '' || existingSource === 'landing_page') {
+          // 如果 source 為空或是 landing_page，直接設置為新的 source（不包含 landing_page）
+          sheet.getRange(emailRow, sourceColumn).setValue(source);
+        }
+        
+        // 更新 timestamp
+        sheet.getRange(emailRow, 3).setValue(timestamp);
+      }
+    } else {
+      // Email 不存在，新增一行
+      sheet.appendRow([email, source, timestamp]);
+    }
     
     // 返回 HTML 響應（用於表單提交）或 JSON（用於 AJAX）
     const response = {

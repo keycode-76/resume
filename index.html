@@ -1,439 +1,1395 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 Chen</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dollar Base</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #ccc;
+    font-family: 'DM Sans', sans-serif;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ─── SCREENS ─── */
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+
+  .screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96);
+  }
+
+
+  /* ─── SCREEN 1: HERO ─── */
+  #s1 {
+    padding-top: 80px;
+  }
+
+  #s1 h1 {
+    font-size: 25px;
+    font-weight: 700;
+    color: #000000;
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 20px;
+  }
+  #s1 h2 {
+    font-size: 18px;
+    color: #a3a3a3;
+    margin-bottom: 10px;
+    font-weight: 300;
+  }
+
+  #s1 .button-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .email-input-wrapper {
+    position: relative;
+    width: 0;
+    opacity: 0;
+    transition: width 0.3s, opacity 0.3s;
+    pointer-events: none;
+    overflow: hidden;
+    max-width: calc(100% - 48px); /* 確保不會被截掉 */
+    margin: 0 auto;
+  }
+
+  .email-input-wrapper.show {
+    width: 100%;
+    max-width: 320px; /* 縮小最大寬度 */
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .email-input-wrapper input {
+    width: 100%;
+    padding: 12px 100px 12px 20px; /* 右側留空間給按鈕 */
+    border: 1.5px solid #DDD;
+    border-radius: 25px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; /* 稍微縮小字體 */
+    background: white;
+    color: #1A1A1A;
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+  }
+
+  .email-input-wrapper input:focus { 
+    
+  }
+  
+  .email-input-wrapper input::placeholder { 
+    color: #CCC; 
+  }
+
+  .email-input-wrapper .inline-btn {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #1A1A1A;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .email-input-wrapper .inline-btn:hover { 
+    opacity: 0.85; 
+  }
+  
+  .email-input-wrapper .inline-btn:active { 
+    transform: translateY(-50%) scale(0.98); 
+  }
+
+  .big-btn {
+    background: #1A1A1A;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, opacity 0.15s;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+  }
+
+  .big-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+  .big-btn:active { transform: scale(0.98); }
+
+  /* 當 email 輸入框顯示時，隱藏外部的 Subscribe 按鈕 */
+  .email-input-wrapper.show ~ .big-btn {
+    display: none;
+  }
+
+
+  /* ─── SCREEN 2: SWIPE ─── */
+  #s2 {
+    padding: 0;
+    padding-top: 80px;
+    padding-bottom: 40px; /* 為 hint-row 留出空間 */
+    justify-content: center; /* 卡片垂直居中 */
+    align-items: center;
+    position: relative;
+  }
+
+  /* CARD STACK */
+  .card-stack {
+    position: relative;
+    width: 320px;
+    height: 420px;
+    margin-top: -60px; /* 往上移動卡片，為 hint-row 留出空間 */
+  }
+
+  .card {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.08s;
+    touch-action: none;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  }
+
+  .card:active { cursor: grabbing; }
+
+  .card-emoji {
+    font-size: 64px;
+    position: absolute;
+    top: 36px;
+    left: 32px;
+  }
+
+  .card-image {
+    position: absolute;
+    top: 36px;
+    left: 32px;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+
+  /* Who is Human special image style */
+  .card-image-full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    border-radius: 24px 24px 0 0;
+    z-index: 1; /* 圖片在底層 */
+  }
+
+  .card-image-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.9) 80%, #FFFFFF 100%);
+    border-radius: 24px 24px 0 0;
+    pointer-events: none;
+    z-index: 2; /* 漸層在中間層 */
+  }
+
+  .card.has-full-image {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .card.has-full-image .card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3; /* 文字內容在漸層上方 */
+    padding: 36px 32px;
+    background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.9) 30%, transparent 100%);
+  }
+
+  .card-image-gradient {
+    background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.3) 85%, rgba(255,255,255,0.9) 98%, #FFFFFF 100%);
+  }
+
+  .card-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  .card-body {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.75;
+  }
+
+  /* SWIPE LABELS */
+  .label-like, .label-nope {
+    position: absolute;
+    top: 40px;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 3px solid;
+    opacity: 0;
+    transition: opacity 0.1s;
+    pointer-events: none;
+    letter-spacing: 2px;
+    z-index: 100; /* 確保標籤在最上方，不被圖片遮住 */
+  }
+
+  .label-like {
+    right: 24px;
+    color: #2ECC71;
+    border-color: #2ECC71;
+    transform: rotate(8deg);
+  }
+
+  .label-nope {
+    left: 24px;
+    color: #E74C3C;
+    border-color: #E74C3C;
+    transform: rotate(-8deg);
+  }
+
+  /* HINT ROW */
+  .hint-row {
+    position: absolute;
+    top: calc(50% + 210px + 30px); /* 卡片中心 (50%) + 卡片高度的一半 (210px) + 30px 間距 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    z-index: 5; /* 確保在卡片上方 */
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hint-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid #DDD;
+    background: white;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s, border-color 0.15s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .hint-btn:hover { transform: scale(1.1); }
+  .hint-btn.left:hover { border-color: #E74C3C; }
+  .hint-btn.right:hover { border-color: #2ECC71; }
+
+  .hint-center {
+    font-size: 11px;
+    color: #666666;
+    text-align: start;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+
+  /* COUNTER */
+  .counter {
+    position: absolute;
+    top: 32px;
+    right: 24px;
+    font-size: 12px;
+    color: #BBB;
+  }
+
+  /* DONE STATE - ABOUT ME */
+  .done-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+    padding: 80px 32px 32px;
+    max-width: 500px;
+    width: 100%;
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+
+  /* Custom Scrollbar */
+  .done-state::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .done-state::-webkit-scrollbar-track {
+    background: #ccc;
+  }
+
+  .done-state::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 4px;
+  }
+
+  .done-state::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+
+  /* Firefox scrollbar */
+  .done-state {
+    scrollbar-width: thin;
+    scrollbar-color: #999 #ccc;
+  }
+
+  .done-state.show { display: flex; }
+
+  /* 動畫：初始狀態隱藏（只在沒有 show 類時） */
+  .done-state:not(.show) .done-avatar,
+  .done-state:not(.show) .done-intro,
+  .done-state:not(.show) .done-section,
+  .done-state:not(.show) .replay-btn {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  /* 頭像動畫 */
+  .done-state.show .done-avatar {
+    animation: avatarAppear 0.6s ease-out forwards;
+  }
+
+  @keyframes avatarAppear {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) translateY(20px);
     }
-    .animate-rise {
-      animation: rise 0.7s ease forwards;
+    50% {
+      transform: scale(1.05) translateY(0);
     }
-    .animate-rise-delay-1 {
-      animation: rise 0.7s 0.1s ease forwards;
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
     }
-    .animate-rise-delay-2 {
-      animation: rise 0.7s 0.18s ease forwards;
+  }
+
+  /* 介紹文字動畫 */
+  .done-state.show .done-intro {
+    animation: fadeInUp 0.5s ease-out 0.3s forwards;
+  }
+
+  /* Connect 區域動畫 */
+  .done-state.show .done-section:nth-of-type(1) {
+    animation: fadeInUp 0.5s ease-out 0.5s forwards;
+  }
+
+  /* Categories 區域動畫 */
+  .done-state.show .done-section:nth-of-type(2) {
+    animation: fadeInUp 0.5s ease-out 0.7s forwards;
+  }
+
+  /* 產品列表動畫 */
+  .done-state.show .done-section:nth-of-type(3) {
+    animation: fadeInUp 0.5s ease-out 0.9s forwards;
+  }
+
+  /* 產品項目依次出現 */
+  .done-state.show .done-product-item {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  .done-state.show .done-product-item:nth-child(1) {
+    animation: fadeInUp 0.4s ease-out 1.0s forwards;
+  }
+
+  .done-state.show .done-product-item:nth-child(2) {
+    animation: fadeInUp 0.4s ease-out 1.15s forwards;
+  }
+
+  .done-state.show .done-product-item:nth-child(3) {
+    animation: fadeInUp 0.4s ease-out 1.3s forwards;
+  }
+
+  .done-state.show .done-product-item:nth-child(4) {
+    animation: fadeInUp 0.4s ease-out 1.45s forwards;
+  }
+
+  /* 按鈕動畫 */
+  .done-state.show .replay-btn {
+    animation: fadeInUp 0.5s ease-out 1.1s forwards;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
     }
-    .animate-rise-delay-3 {
-      animation: rise 0.7s 0.26s ease forwards;
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .animate-rise-delay-4 {
-      animation: rise 0.7s 0.34s ease forwards;
-    }
-    /* 噪點紋理背景 */
-    .noise-bg {
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-    }
-    /* 圖片像素化渲染 */
-    .pixelated {
-      image-rendering: pixelated;
-    }
-  </style>
+  }
+
+  .done-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #DDD;
+  }
+
+  .done-intro {
+    font-size: 16px;
+    color: #1A1A1A;
+    line-height: 1.7;
+    text-align: left;
+    /* background: rgb(221, 221, 221); */
+    padding: 24px;
+    border-radius: 10px;
+    border: 1.5px solid #DDD;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .done-intro a {
+    color: #1A1A1A;
+    text-decoration: none;
+  }
+  .done-intro p {
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .done-intro a:hover {
+    text-decoration: underline;
+  }
+
+  .done-section {
+    width: 100%;
+    text-align: left;
+  }
+
+  .done-section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .done-social-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .done-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 15px;
+    border: 1.5px solid #DDD;
+    border-radius: 100px;
+    text-decoration: none;
+    color: #1A1A1A;
+    font-size: 12px;
+    font-weight: 500;
+    background: white;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .done-social-link:hover {
+    background: #000000;
+    color: #cccccc;
+  }
+
+  .done-category-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .done-category-tag {
+    padding: 8px 16px;
+    background: white;
+    border: 1.5px solid #DDD;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #1A1A1A;
+    font-weight: 500;
+  }
+
+  .done-products {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .done-product-item {
+    padding: 16px;
+    background: white;
+    border: 1.5px solid #DDD;
+    border-radius: 12px;
+    text-align: left;
+    transition: border-color 0.15s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .done-product-item:hover {
+    border-color: #1A1A1A;
+    transform: translateY(-2px);
+  }
+
+  .done-product-item a {
+    text-decoration: none;
+    color: #1A1A1A;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .done-product-item img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  /* Who is Human 左側圖片漸層 */
+  .done-product-item.who-is-human {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .done-product-item.who-is-human a {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    min-height: 80px;
+  }
+
+  .done-product-item.who-is-human img {
+    width: 33.33%;
+    height: 80px;
+    object-fit: cover;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .done-product-item.who-is-human a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 33.33%;
+    height: 80px;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.7) 80%, #FFFFFF 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .done-product-item.who-is-human .done-product-info {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    min-height: 80px;
+    box-sizing: border-box;
+  }
+
+  .done-product-info {
+    flex: 1;
+  }
+
+  .done-product-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .done-product-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.4;
+  }
+
+  .replay-btn {
+    margin-top: 8px;
+    background: none;
+    border: 1.5px solid #1A1A1A;
+    color: #1A1A1A;
+    padding: 14px 36px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .replay-btn:hover { background: #1A1A1A; color: white; }
+
+  /* Progress dots */
+  .dots {
+    position: absolute;
+    top: 100px;
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #DDD;
+    transition: background 0.2s;
+  }
+
+  .dot.done { background: #1A1A1A; }
+
+</style>
 </head>
-<body class="bg-[#0e0e0c] text-[#ece9dc] font-['DM_Sans'] scroll-smooth">
-  <!-- 噪點背景層 -->
-  <div class="noise-bg"></div>
+<body>
 
-  <!-- 導航欄 -->
-  <nav class="sticky top-0 z-[100] flex items-center justify-between px-8 py-[12.6px] bg-[#0e0e0c]/85 backdrop-blur-[20px]">
-    <h1 class="font-['Syne'] font-extrabold text-[40px] tracking-[-0.3px] text-[#ece9dc]">Elena Chen</h1>
-    <div class="flex items-center gap-1.5">
-      <!-- X -->
-      <a href="https://x.com/404chenhavefun" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="X">
-        <span class="font-['Syne'] font-extrabold text-[13px]">𝕏</span>
-      </a>
-      <!-- TikTok -->
-      <a href="https://www.tiktok.com/@404_chen" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="TikTok">
-        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      </a>
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/404chen_" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="Instagram">
-        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      </a>
-      <!-- YouTube -->
-      <a href="https://youtube.com/@404chenhavefun" target="_blank" class="w-9 h-9 rounded-[10px] border border-[rgba(255,255,255,0.05)] bg-[#171715] text-white/70 flex items-center justify-center no-underline text-sm font-bold transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90 hover:bg-white/5" title="YouTube">
-        <svg class="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-      </a>
+<!-- ─── SCREEN 1: HERO ─── -->
+<div class="screen" id="s1">
+  <h2>Lets Connect</h2>
+  <h1>Hi, I'm 404 Chen</h1>
+  <div class="button-container">
+    <div class="email-input-wrapper" id="email-wrapper">
+      <input type="email" id="email-input" placeholder="EMAIL" />
+      <button class="inline-btn" id="continue-btn" onclick="toggleEmail()" style="display: none;">Start</button>
     </div>
-  </nav>
+    <button class="big-btn" id="subscribe-btn" onclick="toggleEmail()">Email</button>
+  </div>
+</div>
 
-  <!-- 頁面容器 -->
-  <div class="max-w-[860px] mx-auto pt-[52px] px-6 pb-20">
-    <!-- 個人簡介區域 -->
-    <div class="mb-10 opacity-0 animate-rise">
-      <div class="flex items-start gap-4">
-        <img src="assets/image/404chen.png" alt="Elena Chen" class="w-[46px] h-[46px] rounded-full bg-[#171715] border border-[rgba(255,255,255,0.05)] object-cover flex-shrink-0">
-        <div class="flex-1">
-          <p class="text-sm text-white/80 leading-[1.7] mb-2">
-            I'm 404 from Taiwan and currently traveling in Japan.<br>
-            Building from productivity tools to lifestyle apps.<br>
-            I post my development journey every day.<br><br>
-            Currently looking for a <span class="text-[#fff] font-semibold">co founder</span> to build cool stuff.<br>
-            If you're interested in building fun projects together, feel free to reach out.
-          </p>
-          <a href="mailto:404chenhavefun@gmail.com" class="inline-flex items-center gap-1.5 text-[12.5px] text-white/70 no-underline transition-colors hover:text-white/90">
-            <svg class="w-[13px] h-[13px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            MAIL
-          </a>
-        </div>
-      </div>
-    </div>
+<!-- ─── SCREEN 2: SWIPE ─── -->
+<div class="screen hidden" id="s2">
+  <div class="dots" id="dots"></div>
+  <div class="counter" id="counter"></div>
 
-    <!-- 過濾器 -->
-    <div class="flex gap-[7px] mb-7 flex-wrap opacity-0 animate-rise-delay-1">
-      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-[#ece9dc] text-[#0e0e0c] font-['DM_Sans'] text-[12.5px] font-medium cursor-pointer transition-all duration-[180ms] border-transparent active" data-filter="all">All</button>
-      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-transparent text-white/70 font-['DM_Sans'] text-[12.5px] cursor-pointer transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90" data-filter="app">App</button>
-      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-transparent text-white/70 font-['DM_Sans'] text-[12.5px] cursor-pointer transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90" data-filter="game">Game</button>
-      <button class="filter-btn px-[13px] py-1.25 rounded-full border border-[rgba(255,255,255,0.05)] bg-transparent text-white/70 font-['DM_Sans'] text-[12.5px] cursor-pointer transition-all duration-[180ms] hover:border-[rgba(255,255,255,0.12)] hover:text-white/90" data-filter="recommend">Recommend</button>
-    </div>
-
-    <!-- 特色項目卡片: Who is Human? -->
-    <div class="featured-wrap mb-3.5 opacity-0 animate-rise-delay-2" data-tags="game">
-      <div class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[20px] overflow-hidden relative transition-[border-color,transform] duration-[220ms] hover:border-[rgba(200,240,102,0.2)] hover:-translate-y-0.5">
-        <!-- 頂部裝飾線 -->
-        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(200,240,102,0.25)] to-transparent"></div>
-        
-        <div class="grid grid-cols-[auto_1fr] gap-0 max-[560px]:grid-cols-1">
-          <!-- 圖片欄 -->
-          <div class="w-40 min-h-[220px] bg-[#1a2a3a] relative overflow-hidden flex items-center justify-center flex-shrink-0 max-[560px]:w-full max-[560px]:h-[180px]">
-            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human gameplay" class="w-full h-full object-cover object-[center_top] pixelated opacity-92">
-            <!-- 圖片漸變疊加 -->
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-60% to-[#171715] max-[560px]:bg-gradient-to-b max-[560px]:via-60%"></div>
-          </div>
-          
-          <!-- 文字欄 -->
-          <div class="p-[26px_26px_22px] flex flex-col">
-            <!-- 徽章 -->
-            <div class="flex gap-1.5 mb-3.5 flex-wrap">
-              <span class="text-[10px] font-semibold tracking-[0.08em] uppercase px-[9px] py-0.75 rounded-full border bg-[rgba(200,240,102,0.08)] border-[rgba(200,240,102,0.25)] text-[#fff]">✦ Featured</span>
-              <span class="text-[10px] font-semibold tracking-[0.08em] uppercase px-[9px] py-0.75 rounded-full border bg-white/4 border-[rgba(255,255,255,0.05)] text-white/70">Game</span>
-              <span class="text-[10px] font-semibold tracking-[0.08em] uppercase px-[9px] py-0.75 rounded-full border bg-green-500/8 border-green-500/25 text-green-400">● Live</span>
-            </div>
-            
-            <!-- 標題 -->
-            <h2 class="font-['Syne'] font-extrabold text-[26px] tracking-[-0.5px] mb-2 leading-[1.1] text-[#ece9dc]">Who is<br>Human?</h2>
-            
-            <!-- 描述 -->
-            <p class="text-[13.5px] text-white/70 leading-[1.65] mb-5">A social deduction game — can you tell the difference between human and AI? Join early and get notified at launch.</p>
-            
-            <!-- 電子郵件表單 -->
-            <div class="flex gap-[7px]">
-              <input type="email" id="wih-email" placeholder="your@email.com" class="flex-1 bg-[#0e0e0c] border border-[rgba(255,255,255,0.05)] rounded-[10px] px-3.5 py-2.5 text-[#ece9dc] font-['DM_Sans'] text-[13px] outline-none transition-[border-color] duration-[180ms] placeholder:text-white/50 focus:border-[rgba(200,240,102,0.35)] min-w-0">
-              <button id="email-submit-btn" class="email-btn bg-[#fff] text-[#111] border-none rounded-[10px] px-4 py-2.5 font-['Syne'] text-[13px] font-bold whitespace-nowrap cursor-pointer transition-opacity duration-[180ms] hover:opacity-85 flex-shrink-0">Notify me</button>
-            </div>
-            
-            <!-- 成功訊息 -->
-            <div id="email-success" class="hidden text-[13px] text-green-400 mt-2">✓ You're on the list!</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 項目網格 -->
-    <div class="mb-2.5 opacity-0 animate-rise-delay-3">
-      <p class="text-[10px] font-semibold tracking-[0.14em] uppercase text-white/70 mb-2.5" style="margin-top:26px;">Projects</p>
-      <div class="grid grid-cols-3 gap-2 max-[480px]:grid-cols-2">
-        <!-- Challog -->
-        <div class="card-wrap" data-tags="app">
-          <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank" class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[14px] p-4 flex flex-col aspect-square no-underline transition-[border-color,transform] duration-200 hover:border-[rgba(255,255,255,0.12)] hover:-translate-y-1 relative bg-white/5 border-[rgba(255,255,255,0.08)]">
-            <div class="absolute top-[11px] right-[11px] w-1.25 h-1.25 rounded-full bg-green-500"></div>
-            <img src="assets/image/01_challog.png" alt="Challog" class="w-[49.5px] h-[49.5px] mb-auto object-contain flex-shrink-0">
-            <div>
-              <div class="font-['Syne'] text-[13px] font-bold text-[#ece9dc] mb-0.5">Challog</div>
-              <div class="text-sm text-white/70 leading-[1.4]">A challenge tracker to build your streaks</div>
-            </div>
-          </a>
-        </div>
-
-        <!-- Sushi Shots -->
-        <div class="card-wrap" data-tags="app">
-          <a href="https://sushishots.dollarbasellc.com/" target="_blank" class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[14px] p-4 flex flex-col aspect-square no-underline transition-[border-color,transform] duration-200 hover:border-[rgba(255,255,255,0.12)] hover:-translate-y-1 relative">
-            <img src="assets/image/02_sushishots.png" alt="Sushi Shots" class="w-[49.5px] h-[49.5px] mb-auto object-contain flex-shrink-0">
-            <div>
-              <div class="font-['Syne'] text-[13px] font-bold text-[#ece9dc] mb-0.5">Sushi Shots</div>
-              <div class="text-sm text-white/70 leading-[1.4]">Clean App screenshots in under 5 min</div>
-            </div>
-          </a>
-        </div>
-
-        <!-- LED Light -->
-        <div class="card-wrap" data-tags="recommend">
-          <a href="https://amzn.to/4pTD7x7" target="_blank" class="bg-[#171715] border border-[rgba(255,255,255,0.05)] rounded-[14px] p-4 flex flex-col aspect-square no-underline transition-[border-color,transform] duration-200 hover:border-[rgba(255,255,255,0.12)] hover:-translate-y-1 relative">
-            <div class="text-[33px] mb-auto leading-none">💡</div>
-            <div>
-              <div class="font-['Syne'] text-[13px] font-bold text-[#ece9dc] mb-0.5">LED Light</div>
-              <div class="text-sm text-white/70 leading-[1.4]">My go-to table light</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 聯繫區域 -->
-    <div class="text-center pt-14 pb-0 opacity-0 animate-rise-delay-4" id="contact">
-      <h2 class="font-['Syne'] font-extrabold text-[38px] tracking-[-1px] mb-2 text-[#ece9dc]">Get in Touch</h2>
-      <a href="https://x.com/404chenhavefun" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-[12px] border border-[rgba(255,255,255,0.12)] text-[#ece9dc] no-underline text-sm font-medium transition-all duration-200 hover:bg-[#ece9dc] hover:text-[#0e0e0c] hover:border-transparent">
-        @404chenhavefun
-      </a>
-    </div>
-
-    <!-- 頁腳 -->
-    <footer class="mt-14 pt-[20px] border-t border-[rgba(255,255,255,0.05)] flex justify-between items-center gap-3 flex-wrap">
-      <span class="text-[11.5px] text-white/70">© 2026 Dollarbase LLC. All rights reserved.</span>
-    </footer>
+  <div class="card-stack" id="card-stack">
+    <!-- cards injected by JS -->
   </div>
 
-  <script>
-    // 等待 DOM 載入完成
-    document.addEventListener('DOMContentLoaded', function() {
-      // ============================================
-      // 後端配置選擇：Google Sheets 或 Notion
-      // ============================================
+  <div class="done-state" id="done-state">
+    <img src="assets/image/404chen.png" alt="Elena Chen" class="done-avatar">
+    
+    <div class="done-intro">
+      I'm <strong>404 Chen (Elena)</strong>, from Taiwan<br>
+      Building from productivity tools to lifestyle apps<br><br>
+
+      If you're also a<br>
+      Developer,<br>
+      Traveler,<br>
+      Gamer,<br>
+      Artist,<br>
+      <a href="https://x.com/404chenhavefun" target="_blank" ><strong>LETS CONNECT</strong></a><br><br>
       
-      // 選項 1: Google Sheets (推薦 - 可直接使用)
-      const BACKEND_TYPE = 'google_sheets'; // 或 'notion'
-      
-      // Google Sheets 配置
-      const GOOGLE_SHEETS_CONFIG = {
-        // Google Apps Script Web App URL
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyjb-mXodwiqCsyagxV0-cGFBfHZuVSINBT5RCES3OtPwQA7K7DVvMnIdjwugbE_VsQMw/exec'
-      };
-      
-      // Notion 配置（需要 serverless function）
-      const NOTION_CONFIG = {
-        // 請替換為您的 serverless function URL
-        // 設置說明請參考 SETUP_GUIDE.md
-        API_URL: 'YOUR_SERVERLESS_FUNCTION_URL_HERE'
-      };
+      <p>We can build cool stuff together</p>
+      <p>Looking for a <strong>co founder</strong> to build Cursor like pixel editor</p>
+    </div>
 
-      // 過濾器功能
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          // 移除所有 active 狀態
-          document.querySelectorAll('.filter-btn').forEach(b => {
-            b.classList.remove('active', 'bg-[#ece9dc]', 'text-[#0e0e0c]', 'border-transparent');
-            b.classList.add('bg-transparent', 'text-white/70', 'border-[rgba(255,255,255,0.05)]');
-          });
-          
-          // 添加 active 狀態到當前按鈕
-          btn.classList.add('active', 'bg-[#ece9dc]', 'text-[#0e0e0c]', 'border-transparent');
-          btn.classList.remove('bg-transparent', 'text-white/70', 'border-[rgba(255,255,255,0.05)]');
-          
-          // 過濾項目
-          const filter = btn.dataset.filter;
-          document.querySelectorAll('.featured-wrap, .card-wrap').forEach(el => {
-            const tags = el.dataset.tags || '';
-            if (filter === 'all' || tags.includes(filter)) {
-              el.classList.remove('hidden');
-            } else {
-              el.classList.add('hidden');
-            }
-          });
-        });
-      });
+    <div class="done-section">
+      <h3>Connect</h3>
+      <div class="done-social-links">
+        <a href="https://x.com/404chenhavefun" target="_blank" class="done-social-link">X (twitter)</a>
+        <a href="https://www.tiktok.com/@404_chen" target="_blank" class="done-social-link">TikTok</a>
+        <a href="https://www.instagram.com/404chen_" target="_blank" class="done-social-link">IG</a>
+        <a href="https://youtube.com/@404chenhavefun" target="_blank" class="done-social-link">YouTube</a>
+        <a href="mailto:404chenhavefun@gmail.com" class="done-social-link">Email</a>
+      </div>
+    </div>
 
-      // 電子郵件表單處理
-      async function handleEmail() {
-        const inp = document.getElementById('wih-email');
-        const suc = document.getElementById('email-success');
-        const btn = document.getElementById('email-submit-btn');
-        const val = inp.value.trim();
-        
-        // 驗證
-        if (!val || !val.includes('@')) {
-          inp.classList.add('border-red-500/50');
-          setTimeout(() => inp.classList.remove('border-red-500/50'), 1200);
-          return;
-        }
+    <div class="done-section">
+      <div class="done-products">
+        <div class="done-product-item who-is-human">
+          <a href="#" target="_blank">
+            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human">
+            <div class="done-product-info">
+              <div class="done-product-title">Who is Human?</div>
+              <div class="done-product-desc">A social deduction game</div>
+            </div>
+          </a>
+        </div>
+        <div class="done-product-item">
+          <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank">
+            <img src="assets/image/01_challog.png" alt="Challog">
+            <div class="done-product-info">
+              <div class="done-product-title">Challog</div>
+              <div class="done-product-desc">A challenge tracker to build your streaks</div>
+            </div>
+          </a>
+        </div>
+        <div class="done-product-item">
+          <a href="https://sushishots.dollarbasellc.com/" target="_blank">
+            <img src="assets/image/02_sushishots.png" alt="Sushi Shots">
+            <div class="done-product-info">
+              <div class="done-product-title">Sushi Shots</div>
+              <div class="done-product-desc">Clean App screenshots in under 5 min</div>
+            </div>
+          </a>
+        </div>
+        <div class="done-product-item">
+          <a href="https://amzn.to/4pTD7x7" target="_blank">
+            <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 32px;">💡</div>
+            <div class="done-product-info">
+              <div class="done-product-title">LED Light</div>
+              <div class="done-product-desc">My go-to table light</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
 
-        // 禁用按鈕防止重複提交
-        btn.disabled = true;
-        btn.style.opacity = '0.6';
-        btn.textContent = 'Submitting...';
+    <button class="replay-btn" onclick="replay()">↺ Swipe Again</button>
+  </div>
 
-        try {
-          let success = false;
-          
-          if (BACKEND_TYPE === 'google_sheets') {
-            success = await saveToGoogleSheets(val);
-          } else if (BACKEND_TYPE === 'notion') {
-            success = await saveToNotion(val);
-          } else {
-            throw new Error('Invalid backend type. Please configure BACKEND_TYPE.');
-          }
-          
-          // 成功
-          inp.classList.add('hidden');
-          btn.classList.add('hidden');
-          suc.classList.remove('hidden');
-        } catch (error) {
-          console.error('Error saving email:', error);
-          alert(error.message || 'Sorry, something went wrong. Please try again later.');
-          // 恢復按鈕狀態
-          btn.disabled = false;
-          btn.style.opacity = '1';
-          btn.textContent = 'Notify me';
-        }
+  <div class="hint-row" id="hint-row">
+    <button class="hint-btn left" onclick="swipeCard(-1)">✕</button>
+    <div class="hint-center">Swipe Left Skip<br>
+      Swipe Right Save<br>
+      Swipe Up Explore</div>
+    <button class="hint-btn right" onclick="swipeCard(1)">♥</button>
+  </div>
+</div>
+
+
+<script>
+// Google Sheets Configuration
+const GOOGLE_SHEETS_CONFIG = {
+  WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyjb-mXodwiqCsyagxV0-cGFBfHZuVSINBT5RCES3OtPwQA7K7DVvMnIdjwugbE_VsQMw/exec'
+};
+
+const CARDS = [
+  {
+    bg: '#FFF0E6',
+    color: '#1A1A1A',
+    image: 'assets/image/screenshot_whoishuman.png',
+    tag: 'Game',
+    title: 'Who is\nHuman?',
+    body: 'A social deduction game — can you tell the difference between human and AI? Join early and get notified at launch.',
+    link: '#',
+    source: 'who_is_human'
+  },
+  {
+    bg: '#E8F5E9',
+    color: '#1A1A1A',
+    image: 'assets/image/01_challog.png',
+    tag: 'App',
+    title: 'Challog',
+    body: 'A challenge tracker to build your streaks and achieve your goals.',
+    link: 'https://play.google.com/store/apps/details?id=com.challog.app',
+    source: 'challog'
+  },
+  {
+    bg: '#EEF2FF',
+    color: '#1A1A1A',
+    image: 'assets/image/02_sushishots.png',
+    tag: 'App',
+    title: 'Sushi Shots',
+    body: 'Clean App screenshots in under 5 min. Make your app look professional.',
+    link: 'https://sushishots.dollarbasellc.com/',
+    source: 'sushi_shots'
+  },
+];
+
+let stack = [];
+let currentIdx = 0;
+let isDragging = false;
+let startX = 0, startY = 0, currentX = 0, currentY = 0;
+let activeCard = null;
+let userEmail = '';
+let swipedSources = []; // Track sources of right-swiped cards
+
+function toggleEmail() {
+  const emailWrapper = document.getElementById('email-wrapper');
+  const subscribeBtn = document.getElementById('subscribe-btn');
+  const continueBtn = document.getElementById('continue-btn');
+  
+  if (emailWrapper.classList.contains('show')) {
+    // If email input is shown, proceed to swipe
+    const email = document.getElementById('email-input').value.trim();
+    if (email && email.includes('@')) {
+      // Email is valid, save it
+      userEmail = email;
+      // 保存 email
+      saveEmailToSheets(email, '', null); // 傳遞 null 作為 callback
+      goTo(2);
+    } else {
+      // Email is empty or invalid, prevent proceeding
+      const emailInput = document.getElementById('email-input');
+      emailInput.style.borderColor = '#E74C3C';
+      emailInput.placeholder = 'Please enter a valid email';
+      setTimeout(() => {
+        emailInput.style.borderColor = '#DDD';
+        emailInput.placeholder = 'EMAIL';
+      }, 2000);
+      return false; // 阻止繼續
+    }
+  } else {
+    // Show email input
+    emailWrapper.classList.add('show');
+    subscribeBtn.style.display = 'none'; // 隱藏外部按鈕
+    if (continueBtn) {
+      continueBtn.style.display = 'block'; // 顯示內部按鈕
+    }
+    setTimeout(() => {
+      document.getElementById('email-input').focus();
+    }, 300);
+  }
+}
+
+function saveEmailToSheets(email, source, callback) {
+  // 確保 callback 有默認值
+  callback = callback || null;
+  
+  if (!GOOGLE_SHEETS_CONFIG.WEB_APP_URL) {
+    console.error('Google Sheets URL 未配置');
+    if (callback && typeof callback === 'function') {
+      callback();
+    }
+    return;
+  }
+  
+  // 調試：顯示保存的詳細信息
+  console.log('=== 保存到 Google Sheets ===');
+  console.log('Email:', email);
+  console.log('Source:', source);
+  console.log('Timestamp:', new Date().toISOString());
+  
+  const timestamp = new Date().toISOString();
+  const iframeId = 'google-sheets-submit-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+  let callbackExecuted = false;
+  
+  // 將 callback 保存在閉包中
+  const savedCallback = callback;
+  
+  const executeCallback = function() {
+    if (callbackExecuted) return;
+    callbackExecuted = true;
+    
+    const iframe = document.getElementById(iframeId);
+    const form = document.getElementById('form-' + iframeId);
+    if (iframe && document.body.contains(iframe)) {
+      document.body.removeChild(iframe);
+    }
+    if (form && document.body.contains(form)) {
+      document.body.removeChild(form);
+    }
+    
+    // 執行回調
+    if (savedCallback && typeof savedCallback === 'function') {
+      savedCallback();
+    }
+  };
+  
+  const messageHandler = function(event) {
+    if (!event.data || typeof event.data !== 'object') return;
+    
+    window.removeEventListener('message', messageHandler);
+    executeCallback();
+  };
+  
+  window.addEventListener('message', messageHandler);
+
+  const iframe = document.createElement('iframe');
+  iframe.id = iframeId;
+  iframe.style.display = 'none';
+  iframe.name = iframeId;
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.id = 'form-' + iframeId;
+  form.method = 'POST';
+  form.action = GOOGLE_SHEETS_CONFIG.WEB_APP_URL;
+  form.target = iframeId;
+  form.enctype = 'application/x-www-form-urlencoded';
+  form.style.display = 'none';
+
+  const emailInput = document.createElement('input');
+  emailInput.type = 'hidden';
+  emailInput.name = 'email';
+  emailInput.value = email;
+  form.appendChild(emailInput);
+
+  const sourceInput = document.createElement('input');
+  sourceInput.type = 'hidden';
+  sourceInput.name = 'source';
+  sourceInput.value = source;
+  form.appendChild(sourceInput);
+  
+  // 調試：確認表單數據
+  console.log('表單數據:', {
+    email: email,
+    source: source,
+    timestamp: timestamp
+  });
+
+  const timestampInput = document.createElement('input');
+  timestampInput.type = 'hidden';
+  timestampInput.name = 'timestamp';
+  timestampInput.value = timestamp;
+  form.appendChild(timestampInput);
+
+  document.body.appendChild(form);
+  
+  // 調試：確認表單提交
+  console.log('提交表單到:', GOOGLE_SHEETS_CONFIG.WEB_APP_URL);
+  form.submit();
+  console.log('表單已提交');
+
+  // 設置超時回調（如果沒有收到 postMessage，2秒後執行回調）
+  setTimeout(() => {
+    window.removeEventListener('message', messageHandler);
+    executeCallback();
+  }, 2000); // 2 秒超時
+}
+
+// 用於追蹤提交狀態，避免同時提交多個表單
+let isSubmitting = false;
+let pendingSources = [];
+
+function saveSwipeToSheets(source) {
+  // 如果沒有 userEmail，嘗試從 localStorage 獲取或使用匿名標識
+  const email = userEmail || localStorage.getItem('userEmail') || 'anonymous_' + Date.now();
+  if (!source) return;
+  
+  // 調試：顯示即將保存的資料
+  console.log('保存到 Google Sheets:');
+  console.log('  Email:', email);
+  console.log('  Source:', source);
+  console.log('  當前 swipedSources 陣列:', swipedSources);
+  
+  // 如果 userEmail 為空，保存到 localStorage 以便後續使用
+  if (!userEmail) {
+    localStorage.setItem('userEmail', email);
+    userEmail = email;
+  }
+  
+  // 如果正在提交，將 source 加入待處理列表
+  if (isSubmitting) {
+    pendingSources.push(source);
+    console.log('表單正在提交中，將 source 加入待處理列表:', pendingSources);
+    return;
+  }
+  
+  // 設置提交狀態
+  isSubmitting = true;
+  
+  // 右滑時保存對應的 source
+  // 如果三個都右滑，會分別保存：
+  // 1. source: 'who_is_human' (第一個卡片)
+  // 2. source: 'challog' (第二個卡片)
+  // 3. source: 'sushi_shots' (第三個卡片)
+  saveEmailToSheets(email, source, () => {
+    // 提交完成後的回調
+    isSubmitting = false;
+    
+    // 處理待處理的 source
+    if (pendingSources.length > 0) {
+      const nextSource = pendingSources.shift();
+      console.log('處理待處理的 source:', nextSource);
+      setTimeout(() => {
+        saveSwipeToSheets(nextSource);
+      }, 500); // 延遲 500ms 再提交下一個
+    }
+  });
+}
+
+function goTo(n) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.add('hidden');
+    s.classList.remove('show');
+  });
+  document.getElementById('s' + n).classList.remove('hidden');
+  if (n === 2) {
+    initSwipe();
+  }
+}
+
+function replay() {
+  currentIdx = 0;
+  swipedSources = []; // Reset swiped sources for new session
+  initSwipe();
+}
+
+function initSwipe() {
+  currentIdx = 0;
+  stack = [];
+  const cs = document.getElementById('card-stack');
+  cs.innerHTML = '';
+  document.getElementById('done-state').classList.remove('show');
+  document.getElementById('hint-row').style.display = 'flex';
+  document.getElementById('card-stack').style.display = 'block';
+
+  // Build dots
+  const dots = document.getElementById('dots');
+  dots.innerHTML = CARDS.map((_, i) => `<div class="dot" id="dot-${i}"></div>`).join('');
+
+  // Create cards (bottom to top)
+  CARDS.slice().reverse().forEach((data, ri) => {
+    const i = CARDS.length - 1 - ri;
+    const card = createCard(data, i);
+    cs.appendChild(card);
+    stack.push(card);
+  });
+
+  stack.reverse(); // stack[0] = top card
+  updateStack();
+  updateCounter();
+}
+
+function createCard(data, idx) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.background = '#FFFFFF'; // 所有卡片底色都是白色
+  card.style.color = data.color;
+  card.dataset.idx = idx;
+  card.dataset.link = data.link;
+  card.dataset.source = data.source || '';
+  
+  // 調試：顯示卡片創建時的 source
+  console.log(`創建卡片 ${idx}:`, {
+    title: data.title,
+    source: data.source,
+    link: data.link
+  });
+
+  // 檢查是否為 Who is Human（使用 source 或 title 判斷）
+  const isWhoIsHuman = data.source === 'who_is_human' || data.title.includes('Who is');
+  
+  let imageOrEmoji;
+  if (data.image) {
+    if (isWhoIsHuman) {
+      // Who is Human: 圖片占滿上方，下方漸層
+      imageOrEmoji = `
+        <img src="${data.image}" alt="${data.title}" class="card-image-full">
+        <div class="card-image-gradient"></div>
+      `;
+      card.classList.add('has-full-image');
+    } else {
+      // 其他卡片: 小圖標
+      imageOrEmoji = `<img src="${data.image}" alt="${data.title}" class="card-image">`;
+    }
+  } else {
+    imageOrEmoji = `<div class="card-emoji">${data.emoji || '📱'}</div>`;
+  }
+
+  const contentHTML = isWhoIsHuman 
+    ? `<div class="card-content">
+        <div class="card-tag">${data.tag}</div>
+        <div class="card-title">${data.title.replace('\n','<br>')}</div>
+        <div class="card-body">${data.body}</div>
+      </div>`
+    : `
+      <div class="card-tag">${data.tag}</div>
+      <div class="card-title">${data.title.replace('\n','<br>')}</div>
+      <div class="card-body">${data.body}</div>
+    `;
+
+  card.innerHTML = `
+    <div class="label-like" id="like-${idx}">SAVE</div>
+    <div class="label-nope" id="nope-${idx}">SKIP</div>
+    ${imageOrEmoji}
+    ${contentHTML}
+  `;
+
+  // Drag events
+  card.addEventListener('mousedown', dragStart);
+  card.addEventListener('touchstart', dragStart, { passive: true });
+
+  return card;
+}
+
+function updateStack() {
+  const remaining = stack.slice(currentIdx);
+  remaining.forEach((card, i) => {
+    if (i === 0) {
+      card.style.transform = 'translateY(0) scale(1)';
+      card.style.zIndex = 10;
+      card.style.opacity = '1';
+    } else if (i === 1) {
+      card.style.transform = 'translateY(12px) scale(0.96)';
+      card.style.zIndex = 9;
+      card.style.opacity = '1';
+    } else if (i === 2) {
+      card.style.transform = 'translateY(24px) scale(0.92)';
+      card.style.zIndex = 8;
+      card.style.opacity = '0.7';
+    } else {
+      card.style.transform = 'translateY(36px) scale(0.88)';
+      card.style.zIndex = 7;
+      card.style.opacity = '0';
+    }
+    card.style.transition = isDragging ? 'none' : 'transform 0.3s, opacity 0.3s';
+  });
+}
+
+function updateCounter() {
+  const total = CARDS.length;
+  const left = total - currentIdx;
+  document.getElementById('counter').textContent = `${currentIdx + 1 > total ? total : currentIdx + 1} / ${total}`;
+
+  // Update dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.getElementById('dot-' + i);
+    if (dot) dot.className = 'dot' + (i < currentIdx ? ' done' : '');
+  }
+}
+
+function swipeCard(dir, isUpSwipe = false) {
+  if (currentIdx >= CARDS.length) return;
+  const card = stack[currentIdx];
+  
+  if (isUpSwipe) {
+    // 往上滑：跳轉連結
+    const flyY = -600;
+    card.style.transition = 'transform 0.4s ease, opacity 0.4s';
+    card.style.transform = `translateY(${flyY}px)`;
+    card.style.opacity = '0';
+    
+    // 往上滑時才跳轉連結
+    if (card.dataset.link && card.dataset.link !== '#') {
+      setTimeout(() => {
+        window.open(card.dataset.link, '_blank');
+      }, 200);
+    }
+  } else {
+    // 左右滑動
+    const flyX = dir * 600;
+    card.style.transition = 'transform 0.4s ease, opacity 0.4s';
+    card.style.transform = `translateX(${flyX}px) rotate(${dir * 20}deg)`;
+    card.style.opacity = '0';
+
+    // 右滑：只將 source 加入陣列並保存，不跳轉連結
+    if (dir === 1) {
+      const source = card.dataset.source;
+      if (source) {
+        swipedSources.push(source);
+        // 調試：顯示保存的 source
+        console.log('右滑保存 source:', source);
+        console.log('當前 swipedSources 陣列:', swipedSources);
+        saveSwipeToSheets(source);
       }
+    }
+  }
 
-      // 儲存到 Google Sheets（使用表單提交避免 CORS 問題）
-      function saveToGoogleSheets(email) {
-        return new Promise((resolve, reject) => {
-          if (!GOOGLE_SHEETS_CONFIG.WEB_APP_URL || GOOGLE_SHEETS_CONFIG.WEB_APP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-            reject(new Error('Please configure Google Sheets Web App URL in the code.'));
-            return;
-          }
+  currentIdx++;
+  setTimeout(() => {
+    updateStack();
+    updateCounter();
+    if (currentIdx >= CARDS.length) showDone();
+  }, 300);
+}
 
-          // 創建唯一的 iframe ID
-          const iframeId = 'google-sheets-submit-' + Date.now();
-          
-          // 監聽 postMessage（在創建 iframe 之前設置）
-          const messageHandler = function(event) {
-            // 驗證來源（可選，但建議）
-            if (!event.data || typeof event.data !== 'object') return;
-            
-            // 清理監聽器
-            window.removeEventListener('message', messageHandler);
-            
-            // 清理 iframe 和表單
-            const iframe = document.getElementById(iframeId);
-            const form = document.getElementById('form-' + iframeId);
-            if (iframe) document.body.removeChild(iframe);
-            if (form) document.body.removeChild(form);
+function showDone() {
+  document.getElementById('card-stack').style.display = 'none';
+  document.getElementById('hint-row').style.display = 'none';
+  const doneState = document.getElementById('done-state');
+  
+  // 先顯示容器
+  doneState.style.display = 'flex';
+  
+  // 重置動畫狀態
+  doneState.classList.remove('show');
+  
+  // 強制重排，確保動畫重置
+  void doneState.offsetWidth;
+  
+  // 添加 show 類觸發動畫
+  requestAnimationFrame(() => {
+    doneState.classList.add('show');
+  });
+  
+  document.getElementById('counter').textContent = '';
+  document.getElementById('dots').innerHTML = '';
+}
 
-            // 處理響應
-            if (event.data.error) {
-              reject(new Error(event.data.error));
-            } else {
-              resolve(true);
-            }
-          };
-          
-          window.addEventListener('message', messageHandler);
+// ── DRAG ──
+function dragStart(e) {
+  if (currentIdx >= CARDS.length) return;
+  isDragging = true;
+  activeCard = stack[currentIdx];
+  const point = e.touches ? e.touches[0] : e;
+  startX = point.clientX;
+  startY = point.clientY;
 
-          // 創建隱藏的 iframe 用於提交表單
-          const iframe = document.createElement('iframe');
-          iframe.id = iframeId;
-          iframe.style.display = 'none';
-          iframe.name = iframeId;
-          document.body.appendChild(iframe);
+  document.addEventListener('mousemove', dragMove);
+  document.addEventListener('mouseup', dragEnd);
+  document.addEventListener('touchmove', dragMove, { passive: true });
+  document.addEventListener('touchend', dragEnd);
+}
 
-          // 創建表單
-          const form = document.createElement('form');
-          form.id = 'form-' + iframeId;
-          form.method = 'POST';
-          form.action = GOOGLE_SHEETS_CONFIG.WEB_APP_URL;
-          form.target = iframeId;
-          form.enctype = 'application/x-www-form-urlencoded';
-          form.style.display = 'none';
+function dragMove(e) {
+  if (!isDragging || !activeCard) return;
+  const point = e.touches ? e.touches[0] : e;
+  currentX = point.clientX - startX;
+  currentY = point.clientY - startY;
+  const rot = currentX * 0.08;
 
-          // 添加數據字段
-          const emailInput = document.createElement('input');
-          emailInput.type = 'hidden';
-          emailInput.name = 'email';
-          emailInput.value = email;
-          form.appendChild(emailInput);
+  // 檢測主要是水平還是垂直滑動
+  const absX = Math.abs(currentX);
+  const absY = Math.abs(currentY);
+  
+  if (absY > absX && absY > 20) {
+    // 垂直滑動（往上滑）
+    activeCard.style.transition = 'none';
+    activeCard.style.transform = `translateY(${currentY}px)`;
+  } else {
+    // 水平滑動（左右滑）
+    activeCard.style.transition = 'none';
+    activeCard.style.transform = `translateX(${currentX}px) rotate(${rot}deg)`;
+  }
 
-          const sourceInput = document.createElement('input');
-          sourceInput.type = 'hidden';
-          sourceInput.name = 'source';
-          sourceInput.value = 'who_is_human';
-          form.appendChild(sourceInput);
+  const idx = parseInt(activeCard.dataset.idx);
+  const likeEl = document.getElementById('like-' + idx);
+  const nopeEl = document.getElementById('nope-' + idx);
+  
+  if (absY > absX && absY > 20) {
+    // 垂直滑動時不顯示標籤
+    likeEl.style.opacity = 0;
+    nopeEl.style.opacity = 0;
+  } else {
+    // 水平滑動時顯示標籤
+    const ratio = Math.min(absX / 80, 1);
+    if (currentX > 20) {
+      likeEl.style.opacity = ratio;
+      nopeEl.style.opacity = 0;
+    } else if (currentX < -20) {
+      nopeEl.style.opacity = ratio;
+      likeEl.style.opacity = 0;
+    } else {
+      likeEl.style.opacity = 0;
+      nopeEl.style.opacity = 0;
+    }
+  }
+}
 
-          const timestampInput = document.createElement('input');
-          timestampInput.type = 'hidden';
-          timestampInput.name = 'timestamp';
-          timestampInput.value = new Date().toISOString();
-          form.appendChild(timestampInput);
+function dragEnd() {
+  isDragging = false;
+  document.removeEventListener('mousemove', dragMove);
+  document.removeEventListener('mouseup', dragEnd);
+  document.removeEventListener('touchmove', dragMove);
+  document.removeEventListener('touchend', dragEnd);
 
-          document.body.appendChild(form);
+  if (!activeCard) return;
+  const threshold = 100;
+  const absX = Math.abs(currentX);
+  const absY = Math.abs(currentY);
 
-          // 設置超時（10秒後假設成功，給重定向足夠時間）
-          setTimeout(() => {
-            window.removeEventListener('message', messageHandler);
-            const iframeEl = document.getElementById(iframeId);
-            const formEl = document.getElementById('form-' + iframeId);
-            if (iframeEl && document.body.contains(iframeEl)) {
-              document.body.removeChild(iframeEl);
-              document.body.removeChild(formEl);
-              // 超時時假設成功（因為無法確認，但通常表示已提交）
-              resolve(true);
-            }
-          }, 10000);
+  // 判斷是垂直滑動還是水平滑動
+  if (absY > absX && absY > threshold && currentY < 0) {
+    // 往上滑：跳轉連結
+    swipeCard(0, true);
+  } else if (absX > absY && absX > threshold) {
+    // 水平滑動
+    if (currentX > threshold) {
+      // 右滑：只加入 source 陣列
+      swipeCard(1);
+    } else if (currentX < -threshold) {
+      // 左滑：跳過
+      swipeCard(-1);
+    } else {
+      // snap back
+      activeCard.style.transition = 'transform 0.3s spring';
+      activeCard.style.transform = 'translateX(0) rotate(0)';
+      const idx = parseInt(activeCard.dataset.idx);
+      document.getElementById('like-' + idx).style.opacity = 0;
+      document.getElementById('nope-' + idx).style.opacity = 0;
+    }
+  } else {
+    // snap back
+    activeCard.style.transition = 'transform 0.3s spring';
+    activeCard.style.transform = 'translateX(0) rotate(0) translateY(0)';
+    const idx = parseInt(activeCard.dataset.idx);
+    document.getElementById('like-' + idx).style.opacity = 0;
+    document.getElementById('nope-' + idx).style.opacity = 0;
+  }
 
-          // 提交表單
-          form.submit();
-        });
+  currentX = 0;
+  currentY = 0;
+  activeCard = null;
+}
+
+// Email input Enter key handling
+document.addEventListener('DOMContentLoaded', function() {
+  const emailInput = document.getElementById('email-input');
+  if (emailInput) {
+    emailInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        toggleEmail();
       }
-
-      // 儲存到 Notion (通過 serverless function)
-      async function saveToNotion(email) {
-        if (!NOTION_CONFIG.API_URL || NOTION_CONFIG.API_URL === 'YOUR_SERVERLESS_FUNCTION_URL_HERE') {
-          throw new Error('Please configure Notion API URL in the code.');
-        }
-
-        const response = await fetch(NOTION_CONFIG.API_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: email,
-            source: 'who_is_human',
-            timestamp: new Date().toISOString()
-          })
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(errorText || 'Failed to save to Notion');
-        }
-
-        const result = await response.json();
-        if (result.error) {
-          throw new Error(result.error);
-        }
-        
-        return true;
-      }
-
-      // 綁定按鈕點擊事件
-      const emailBtn = document.getElementById('email-submit-btn');
-      if (emailBtn) {
-        emailBtn.addEventListener('click', handleEmail);
-      }
-
-      // Enter 鍵提交
-      const emailInput = document.getElementById('wih-email');
-      if (emailInput) {
-        emailInput.addEventListener('keydown', e => {
-          if (e.key === 'Enter') handleEmail();
-        });
-      }
-
-      // 平滑滾動
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute('href'));
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
     });
-  </script>
+  }
+  
+  // 確保 Continue 按鈕初始狀態是隱藏的
+  const continueBtn = document.getElementById('continue-btn');
+  if (continueBtn) {
+    continueBtn.style.display = 'none';
+  }
+});
+</script>
 </body>
 </html>
