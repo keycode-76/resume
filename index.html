@@ -186,6 +186,7 @@
     transition: transform 0.08s;
     touch-action: none;
     box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    background: #FFFFFF; /* 確保默認背景色 */
   }
 
   .card:active { cursor: grabbing; }
@@ -233,6 +234,7 @@
   .card.has-full-image {
     padding: 0;
     overflow: hidden;
+    background: #FFFFFF !important; /* 確保背景色 */
   }
 
   .card.has-full-image .card-content {
@@ -734,7 +736,7 @@
   </div>
 
   <div class="done-state" id="done-state">
-    <img src="assets/image/404chen.png" alt="Elena Chen" class="done-avatar">
+    <img src="/assets/image/404chen.png" alt="Elena Chen" class="done-avatar">
     
     <div class="done-intro">
       I'm <strong>404 Chen (Elena)</strong>, from Taiwan<br>
@@ -766,7 +768,7 @@
       <div class="done-products">
         <div class="done-product-item who-is-human">
           <a href="#" target="_blank">
-            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human">
+            <img src="/assets/image/screenshot_whoishuman.png" alt="Who is Human">
             <div class="done-product-info">
               <div class="done-product-title">Who is Human?</div>
               <div class="done-product-desc">A social deduction game</div>
@@ -775,7 +777,7 @@
         </div>
         <div class="done-product-item who-is-human">
           <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank">
-            <img src="assets/image/screenshot_challog2.0.png" alt="Challog">
+            <img src="/assets/image/screenshot_challog2.0.png" alt="Challog">
             <div class="done-product-info">
               <div class="done-product-title">Challog</div>
               <div class="done-product-desc">A challenge tracker to build your streaks</div>
@@ -784,7 +786,7 @@
         </div>
         <div class="done-product-item">
           <a href="https://sushishots.dollarbasellc.com/" target="_blank">
-            <img src="assets/image/02_sushishots.png" alt="Sushi Shots">
+            <img src="/assets/image/02_sushishots.png" alt="Sushi Shots">
             <div class="done-product-info">
               <div class="done-product-title">Sushi Shots</div>
               <div class="done-product-desc">Clean App screenshots in under 5 min</div>
@@ -826,7 +828,7 @@ const CARDS = [
   {
     bg: '#FFF0E6',
     color: '#1A1A1A',
-    image: 'assets/image/screenshot_whoishuman.png',
+    image: '/assets/image/screenshot_whoishuman.png',
     tag: 'Game',
     title: 'Who is\nHuman?',
     body: 'A social deduction game — can you tell the difference between human and AI? Join early and get notified at launch.',
@@ -836,7 +838,7 @@ const CARDS = [
   {
     bg: '#E8F5E9',
     color: '#1A1A1A',
-    image: 'assets/image/screenshot_challog2.0.png',
+    image: '/assets/image/screenshot_challog2.0.png',
     tag: 'App',
     title: 'Challog',
     body: 'A challenge tracker to build your streaks and achieve your goals.',
@@ -846,7 +848,7 @@ const CARDS = [
   {
     bg: '#EEF2FF',
     color: '#1A1A1A',
-    image: 'assets/image/02_sushishots.png',
+    image: '/assets/image/02_sushishots.png',
     tag: 'App',
     title: 'Sushi Shots',
     body: 'Clean App screenshots in under 5 min. Make your app look professional.',
@@ -1094,11 +1096,21 @@ function initSwipe() {
     const card = createCard(data, i);
     cs.appendChild(card);
     stack.push(card);
+    
+    // 調試：確認卡片已創建
+    console.log(`卡片 ${i} 已創建:`, {
+      title: data.title,
+      image: data.image,
+      hasFullImage: card.classList.contains('has-full-image')
+    });
   });
 
   stack.reverse(); // stack[0] = top card
   updateStack();
   updateCounter();
+  
+  // 調試：確認卡片堆疊狀態
+  console.log('卡片堆疊初始化完成，總數:', stack.length);
 }
 
 function createCard(data, idx) {
@@ -1157,6 +1169,35 @@ function createCard(data, idx) {
     ${imageOrEmoji}
     ${contentHTML}
   `;
+
+  // 添加圖片錯誤處理
+  if (data.image && useFullImage) {
+    const img = card.querySelector('.card-image-full');
+    if (img) {
+      img.addEventListener('error', function() {
+        console.error('圖片加載失敗:', data.image);
+        // 圖片加載失敗時，移除全圖樣式，改為小圖標樣式
+        card.classList.remove('has-full-image');
+        const gradient = card.querySelector('.card-image-gradient');
+        if (gradient) gradient.remove();
+        img.className = 'card-image';
+        img.style.width = '64px';
+        img.style.height = '64px';
+        img.style.position = 'absolute';
+        img.style.top = '36px';
+        img.style.left = '32px';
+        img.style.objectFit = 'contain';
+        
+        // 移動內容到正常位置
+        const content = card.querySelector('.card-content');
+        if (content) {
+          content.style.position = 'static';
+          content.style.background = 'transparent';
+          content.style.padding = '0';
+        }
+      });
+    }
+  }
 
   // Drag events
   card.addEventListener('mousedown', dragStart);
