@@ -1301,7 +1301,7 @@ async function showDone() {
   
   // 動態加載 about.html 的內容
   try {
-    const response = await fetch('about.html');
+    const response = await fetch('/about.html');
     const html = await response.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
