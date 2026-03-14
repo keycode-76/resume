@@ -12,6 +12,10 @@ LED Table light
 : My table light
 https://amzn.to/4pTD7x7
 
+Trackpad
+trackpad + stylus setup I used
+https://amzn.to/3Ne3HDO
+
  - account
 x
 https://x.com/404chenhavefun

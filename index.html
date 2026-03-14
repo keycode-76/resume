@@ -344,11 +344,32 @@
     align-items: center;
     gap: 24px;
     text-align: center;
-    padding: 80px 32px 32px;
+    padding: 80px 32px 80px;
     max-width: 500px;
     width: 100%;
     overflow-y: auto;
     max-height: 100vh;
+    scroll-padding-bottom: 20px; /* 確保滾動時按鈕可見 */
+  }
+  
+  /* RWD: 在小螢幕上調整 padding */
+  @media (max-height: 800px) {
+    .done-state {
+      padding: 40px 24px 60px;
+    }
+  }
+  
+  @media (max-height: 600px) {
+    .done-state {
+      padding: 32px 24px 50px;
+    }
+  }
+  
+  /* RWD: 在窄螢幕上調整 padding */
+  @media (max-width: 480px) {
+    .done-state {
+      padding: 60px 24px 60px;
+    }
   }
 
   /* Custom Scrollbar */
@@ -381,9 +402,11 @@
   .done-state:not(.show) .done-avatar,
   .done-state:not(.show) .done-intro,
   .done-state:not(.show) .done-section,
-  .done-state:not(.show) .replay-btn {
+  .done-state:not(.show) .replay-btn,
+  .done-state:not(.show) .done-product-item {
     opacity: 0;
     transform: translateY(20px);
+    will-change: opacity, transform;
   }
 
   /* 頭像動畫 */
@@ -405,27 +428,35 @@
     }
   }
 
-  /* 介紹文字動畫 */
+  /* 介紹文字動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .done-intro {
+    opacity: 0;
+    transform: translateY(20px);
     animation: fadeInUp 0.5s ease-out 0.3s forwards;
   }
 
-  /* Connect 區域動畫 */
+  /* Connect 區域動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .done-section:nth-of-type(1) {
+    opacity: 0;
+    transform: translateY(20px);
     animation: fadeInUp 0.5s ease-out 0.5s forwards;
   }
 
-  /* Categories 區域動畫 */
+  /* Categories 區域動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .done-section:nth-of-type(2) {
+    opacity: 0;
+    transform: translateY(20px);
     animation: fadeInUp 0.5s ease-out 0.7s forwards;
   }
 
-  /* 產品列表動畫 */
+  /* 產品列表動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .done-section:nth-of-type(3) {
+    opacity: 0;
+    transform: translateY(20px);
     animation: fadeInUp 0.5s ease-out 0.9s forwards;
   }
 
-  /* 產品項目依次出現 */
+  /* 產品項目依次出現 - 確保動畫開始前保持隱藏 */
   .done-state.show .done-product-item {
     opacity: 0;
     transform: translateY(15px);
@@ -447,9 +478,15 @@
     animation: fadeInUp 0.4s ease-out 1.45s forwards;
   }
 
-  /* 按鈕動畫 */
+  .done-state.show .done-product-item:nth-child(5) {
+    animation: fadeInUp 0.4s ease-out 1.6s forwards;
+  }
+
+  /* 按鈕動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .replay-btn {
-    animation: fadeInUp 0.5s ease-out 1.1s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease-out 1.75s forwards;
   }
 
   @keyframes fadeInUp {
@@ -515,8 +552,31 @@
   .done-social-links {
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* RWD: 在小螢幕上允許水平滾動 */
+  @media (max-width: 600px) {
+    .done-social-links {
+      justify-content: flex-start;
+      padding-bottom: 4px;
+    }
+    
+    .done-social-links::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    .done-social-links::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .done-social-links::-webkit-scrollbar-thumb {
+      background: #999;
+      border-radius: 2px;
+    }
   }
 
   .done-social-link {
@@ -649,6 +709,7 @@
 
   .replay-btn {
     margin-top: 8px;
+    margin-bottom: 0;
     background: none;
     border: 1.5px solid #1A1A1A;
     color: #1A1A1A;
@@ -659,6 +720,15 @@
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
+    flex-shrink: 0; /* 確保按鈕不會被壓縮 */
+  }
+  
+  /* RWD: 在小螢幕上調整按鈕大小 */
+  @media (max-width: 480px) {
+    .replay-btn {
+      padding: 12px 28px;
+      font-size: 13px;
+    }
   }
 
   .replay-btn:hover { background: #1A1A1A; color: white; }
@@ -707,76 +777,9 @@
     <!-- cards injected by JS -->
   </div>
 
+  <!-- About Me content will be loaded dynamically from about.html -->
   <div class="done-state" id="done-state">
-    <img src="assets/image/404chen.png" alt="Elena Chen" class="done-avatar">
-    
-    <div class="done-intro">
-      I'm <strong>404 Chen (Elena)</strong>, from Taiwan<br>
-      Building from productivity tools to lifestyle apps<br><br>
-
-      If you're also a<br>
-      Developer,<br>
-      Traveler,<br>
-      Gamer,<br>
-      Artist,<br>
-      <a href="https://x.com/404chenhavefun" target="_blank" ><strong>LETS CONNECT</strong></a><br><br>
-      <!-- <p>& Build cool stuff together</p> -->
-      <!-- <p>Looking for <strong>co founder</strong> to build Cursor like pixel editor</p> -->
-    </div>
-
-    <div class="done-section">
-      <h3>Connect</h3>
-      <div class="done-social-links">
-        <a href="https://x.com/404chenhavefun" target="_blank" class="done-social-link">X (twitter)</a>
-        <a href="https://www.tiktok.com/@404_chen" target="_blank" class="done-social-link">TikTok</a>
-        <a href="https://www.instagram.com/404chen_" target="_blank" class="done-social-link">IG</a>
-        <a href="https://youtube.com/@404chenhavefun" target="_blank" class="done-social-link">YouTube</a>
-        <a href="mailto:404chenhavefun@gmail.com" class="done-social-link">Email</a>
-      </div>
-    </div>
-
-    <div class="done-section">
-      <div class="done-products">
-        <div class="done-product-item who-is-human">
-          <a href="#" target="_blank">
-            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human">
-            <div class="done-product-info">
-              <div class="done-product-title">Who is Human?</div>
-              <div class="done-product-desc">A social deduction game</div>
-            </div>
-          </a>
-        </div>
-        <div class="done-product-item who-is-human">
-          <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank">
-            <img src="assets/image/screenshot_challog2.0.png" alt="Challog">
-            <div class="done-product-info">
-              <div class="done-product-title">Challog</div>
-              <div class="done-product-desc">A challenge tracker to build your streaks</div>
-            </div>
-          </a>
-        </div>
-        <div class="done-product-item">
-          <a href="https://sushishots.dollarbasellc.com/" target="_blank">
-            <img src="assets/image/02_sushishots.png" alt="Sushi Shots">
-            <div class="done-product-info">
-              <div class="done-product-title">Sushi Shots</div>
-              <div class="done-product-desc">Clean App screenshots in under 5 min</div>
-            </div>
-          </a>
-        </div>
-        <div class="done-product-item">
-          <a href="https://amzn.to/4pTD7x7" target="_blank">
-            <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 32px;">💡</div>
-            <div class="done-product-info">
-              <div class="done-product-title">LED Light</div>
-              <div class="done-product-desc">My go-to table light</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <button class="replay-btn" onclick="replay()">↺ Swipe Again</button>
+    <!-- Content loaded from about.html -->
   </div>
 
   <div class="hint-row" id="hint-row">
@@ -1043,9 +1046,15 @@ function goTo(n) {
 }
 
 function replay() {
+  console.log('replay() called');
   currentIdx = 0;
   swipedSources = []; // Reset swiped sources for new session
-  initSwipe();
+  // 清除 URL hash
+  if (window.location.hash === '#about' || window.location.hash === '#swipe') {
+    window.history.replaceState(null, '', window.location.pathname);
+  }
+  // 確保在 screen 2 (swipe 頁面)
+  goTo(2);
 }
 
 function initSwipe() {
@@ -1053,9 +1062,35 @@ function initSwipe() {
   stack = [];
   const cs = document.getElementById('card-stack');
   cs.innerHTML = '';
-  document.getElementById('done-state').classList.remove('show');
-  document.getElementById('hint-row').style.display = 'flex';
-  document.getElementById('card-stack').style.display = 'block';
+  const doneState = document.getElementById('done-state');
+  
+  // 重置 done-state 的狀態
+  doneState.classList.remove('show');
+  doneState.style.display = 'none';
+  doneState.style.opacity = '';
+  doneState.style.transform = '';
+  
+  // 清除所有子元素的動畫狀態，避免 UI 跑位
+  const children = doneState.querySelectorAll('.done-avatar, .done-intro, .done-section, .replay-btn, .done-product-item');
+  children.forEach(child => {
+    child.style.opacity = '';
+    child.style.transform = '';
+    child.style.animation = '';
+    child.style.willChange = '';
+  });
+  
+  // 強制重排，確保狀態重置
+  void doneState.offsetWidth;
+  
+  // 重置其他 UI 元素
+  const hintRow = document.getElementById('hint-row');
+  const cardStack = document.getElementById('card-stack');
+  hintRow.style.display = 'flex';
+  cardStack.style.display = 'block';
+  hintRow.style.opacity = '';
+  hintRow.style.transform = '';
+  cardStack.style.opacity = '';
+  cardStack.style.transform = '';
 
   // Build dots
   const dots = document.getElementById('dots');
@@ -1255,27 +1290,90 @@ function swipeCard(dir, isUpSwipe = false) {
   }, 300);
 }
 
-function showDone() {
+async function showDone() {
   document.getElementById('card-stack').style.display = 'none';
   document.getElementById('hint-row').style.display = 'none';
   const doneState = document.getElementById('done-state');
   
-  // 先顯示容器
-  doneState.style.display = 'flex';
-  
-  // 重置動畫狀態
+  // 先重置動畫狀態
   doneState.classList.remove('show');
+  doneState.style.display = 'none';
   
-  // 強制重排，確保動畫重置
+  // 動態加載 about.html 的內容
+  try {
+    const response = await fetch('about.html');
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const aboutContent = doc.querySelector('.done-state');
+    
+    if (aboutContent) {
+      // 先替換 done-state 的內容
+      doneState.innerHTML = aboutContent.innerHTML;
+      
+      // 然後從 done-state 中獲取按鈕並設置 onclick 事件
+      const replayBtn = doneState.querySelector('.replay-btn');
+      if (replayBtn) {
+        replayBtn.onclick = replay;
+        replayBtn.textContent = '↺ Swipe Again';
+      }
+    }
+  } catch (error) {
+    console.error('Failed to load about.html:', error);
+    // 如果載入失敗，使用原本的內容
+  }
+  
+  // 獲取所有需要動畫的子元素
+  const children = doneState.querySelectorAll('.done-avatar, .done-intro, .done-section, .replay-btn, .done-product-item');
+  
+  // 手動重置所有子元素的樣式為初始狀態，確保動畫狀態正確
+  children.forEach(child => {
+    child.style.opacity = '0';
+    // 根據元素類型設置不同的初始 transform
+    if (child.classList.contains('done-avatar')) {
+      child.style.transform = 'scale(0.8) translateY(20px)';
+    } else if (child.classList.contains('done-product-item')) {
+      child.style.transform = 'translateY(15px)';
+    } else {
+      child.style.transform = 'translateY(20px)';
+    }
+    child.style.animation = 'none';
+  });
+  
+  // 強制重排，確保動畫狀態重置
   void doneState.offsetWidth;
   
-  // 添加 show 類觸發動畫
+  // 在下一幀顯示容器
   requestAnimationFrame(() => {
+    // 先添加 show 類（此時元素還是 display: none，所以不會顯示）
     doneState.classList.add('show');
+    
+    // 然後設置 display: flex，此時所有子元素都已經通過內聯樣式設置為隱藏
+    doneState.style.display = 'flex';
+    
+    // 滾動到頂部
+    doneState.scrollTop = 0;
+    
+    // 再等一幀確保 display 已應用，然後清除內聯樣式讓 CSS 動畫接管
+    requestAnimationFrame(() => {
+      // 再次確保滾動到頂部（防止動畫期間滾動位置改變）
+      doneState.scrollTop = 0;
+      
+      // 清除手動設置的內聯樣式，讓 CSS 動畫規則接管
+      // 注意：此時 CSS 規則已經設置了初始狀態（opacity: 0），所以不會閃爍
+      children.forEach(child => {
+        child.style.opacity = '';
+        child.style.transform = '';
+        child.style.animation = '';
+      });
+    });
   });
   
   document.getElementById('counter').textContent = '';
   document.getElementById('dots').innerHTML = '';
+  
+  // 更新 URL hash，以便重新載入時保持 about me 狀態
+  window.location.hash = '#about';
 }
 
 // ── DRAG ──
@@ -1399,6 +1497,20 @@ document.addEventListener('DOMContentLoaded', function() {
   const continueBtn = document.getElementById('continue-btn');
   if (continueBtn) {
     continueBtn.style.display = 'none';
+  }
+  
+  // 檢查 URL hash
+  if (window.location.hash === '#about') {
+    // 先切換到 screen 2
+    goTo(2);
+    // 然後顯示 about me（跳過所有卡片）
+    currentIdx = CARDS.length; // 設置為完成狀態
+    setTimeout(() => {
+      showDone();
+    }, 100);
+  } else if (window.location.hash === '#swipe') {
+    // 如果有 #swipe hash，直接顯示 swipe 頁面
+    goTo(2);
   }
 });
 </script>
