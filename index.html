@@ -456,31 +456,7 @@
     animation: fadeInUp 0.5s ease-out 0.9s forwards;
   }
 
-  /* 產品項目依次出現 - 確保動畫開始前保持隱藏 */
-  .done-state.show .done-product-item {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  .done-state.show .done-product-item:nth-child(1) {
-    animation: fadeInUp 0.4s ease-out 1.0s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(2) {
-    animation: fadeInUp 0.4s ease-out 1.15s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(3) {
-    animation: fadeInUp 0.4s ease-out 1.3s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(4) {
-    animation: fadeInUp 0.4s ease-out 1.45s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(5) {
-    animation: fadeInUp 0.4s ease-out 1.6s forwards;
-  }
+  /* 產品項目動畫完全由 JS 控制 */
 
   /* 按鈕動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .replay-btn {
@@ -658,12 +634,12 @@
   }
 
   /* Who is Human 左側圖片樣式 */
-  .done-product-item.who-is-human {
+  .done-product-item.product-banner {
     padding: 0;
     overflow: hidden;
   }
 
-  .done-product-item.who-is-human a {
+  .done-product-item.product-banner a {
     display: flex;
     align-items: center;
     gap: 0;
@@ -671,7 +647,7 @@
     height: 80px;
   }
 
-  .done-product-item.who-is-human img {
+  .done-product-item.product-banner img {
     width: 33.33%;
     height: 100%;
     object-fit: cover;
@@ -679,7 +655,7 @@
     position: relative;
   }
 
-  .done-product-item.who-is-human .done-product-info {
+  .done-product-item.product-banner .done-product-info {
     flex: 1;
     padding: 16px;
     display: flex;
@@ -800,14 +776,14 @@ const GOOGLE_SHEETS_CONFIG = {
 
 const CARDS = [
   {
-    bg: '#FFF0E6',
+    bg: '#E6F4EA',
     color: '#1A1A1A',
-    image: 'assets/image/screenshot_whoishuman.png',
+    image: 'assets/image/screenshot_weatherFarm.png',
     tag: 'Game',
-    title: 'Who is\nHuman?',
-    body: 'A social deduction game — can you tell the difference between human and AI? Join early and get notified at launch.',
-    link: '#',
-    source: 'who_is_human'
+    title: 'Weather Farm',
+    body: 'A little farm on your phone — plants grow in real days with real weather.',
+    link: 'https://www.reddit.com/r/indiegames/comments/1rdhn75/i_made_a_farm_game_where_plants_take_real_days_to/',
+    source: 'weather_farm'
   },
   {
     bg: '#E8F5E9',
@@ -819,6 +795,17 @@ const CARDS = [
     link: 'https://play.google.com/store/apps/details?id=com.challog.app',
     source: 'challog'
   },
+  {
+    bg: '#FFF0E6',
+    color: '#1A1A1A',
+    image: 'assets/image/screenshot_whoishuman.png',
+    tag: 'Game',
+    title: 'Who is\nHuman?',
+    body: 'A social deduction game — can you tell the difference between human and AI? Join early and get notified at launch.',
+    link: '#',
+    source: 'who_is_human'
+  },
+
   {
     bg: '#EEF2FF',
     color: '#1A1A1A',
@@ -1135,10 +1122,11 @@ function createCard(data, idx) {
     link: data.link
   });
 
-  // 檢查是否為 Who is Human 或 Challog（使用 source 或 title 判斷）
+  // 檢查是否為 Who is Human、Challog 或 Weather Farm（使用 source 或 title 判斷）
   const isWhoIsHuman = data.source === 'who_is_human' || data.title.includes('Who is');
   const isChallog = data.source === 'challog' || data.title.includes('Challog');
-  const useFullImage = isWhoIsHuman || isChallog;
+  const isWeatherFarm = data.source === 'weather_farm' || data.title.includes('Weather Farm');
+  const useFullImage = isWhoIsHuman || isChallog || isWeatherFarm;
   
   let imageOrEmoji;
   if (data.image) {

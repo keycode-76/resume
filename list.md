@@ -1,4 +1,8 @@
  - APP
+Weather Farm
+: little farm on your phone
+https://www.reddit.com/r/indiegames/comments/1rdhn75/i_made_a_farm_game_where_plants_take_real_days_to/
+
 Sushi Shots
 : Get a clean APP screen shots in under 5 min
 https://sushishots.dollarbasellc.com/
@@ -13,7 +17,7 @@ LED Table light
 https://amzn.to/4pTD7x7
 
 Trackpad
-trackpad + stylus setup I used
+: trackpad + stylus setup I used
 https://amzn.to/3Ne3HDO
 
  - account

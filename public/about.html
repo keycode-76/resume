@@ -136,37 +136,13 @@
     animation: fadeInUp 0.5s ease-out 0.9s forwards;
   }
 
-  /* 產品項目依次出現 - 確保動畫開始前保持隱藏 */
-  .done-state.show .done-product-item {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  .done-state.show .done-product-item:nth-child(1) {
-    animation: fadeInUp 0.4s ease-out 1.0s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(2) {
-    animation: fadeInUp 0.4s ease-out 1.15s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(3) {
-    animation: fadeInUp 0.4s ease-out 1.3s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(4) {
-    animation: fadeInUp 0.4s ease-out 1.45s forwards;
-  }
-
-  .done-state.show .done-product-item:nth-child(5) {
-    animation: fadeInUp 0.4s ease-out 1.6s forwards;
-  }
+  /* 產品項目動畫完全由 JS 控制 */
 
   /* 按鈕動畫 - 確保動畫開始前保持隱藏 */
   .done-state.show .replay-btn {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeInUp 0.5s ease-out 1.75s forwards;
+    animation: fadeInUp 0.5s ease-out 2.05s forwards;
   }
 
   @keyframes fadeInUp {
@@ -338,12 +314,12 @@
   }
 
   /* Who is Human 左側圖片樣式 */
-  .done-product-item.who-is-human {
+  .done-product-item.product-banner {
     padding: 0;
     overflow: hidden;
   }
 
-  .done-product-item.who-is-human a {
+  .done-product-item.product-banner a {
     display: flex;
     align-items: center;
     gap: 0;
@@ -351,7 +327,7 @@
     height: 80px;
   }
 
-  .done-product-item.who-is-human img {
+  .done-product-item.product-banner img {
     width: 33.33%;
     height: 100%;
     object-fit: cover;
@@ -359,7 +335,7 @@
     position: relative;
   }
 
-  .done-product-item.who-is-human .done-product-info {
+  .done-product-item.product-banner .done-product-info {
     flex: 1;
     padding: 16px;
     display: flex;
@@ -752,21 +728,30 @@
 
     <div class="done-section">
       <div class="done-products">
-        <div class="done-product-item who-is-human">
-          <a href="#" target="_blank">
-            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human">
+        <div class="done-product-item product-banner">
+          <a href="https://www.reddit.com/r/indiegames/comments/1rdhn75/i_made_a_farm_game_where_plants_take_real_days_to/" target="_blank">
+            <img src="assets/image/screenshot_weatherFarm.png" alt="Weather Farm">
             <div class="done-product-info">
-              <div class="done-product-title">Who is Human?</div>
-              <div class="done-product-desc">A social deduction game</div>
+              <div class="done-product-title">Weather Farm</div>
+              <div class="done-product-desc">little farm on your phone</div>
             </div>
           </a>
         </div>
-        <div class="done-product-item who-is-human">
+        <div class="done-product-item product-banner">
           <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank">
             <img src="assets/image/screenshot_challog2.0.png" alt="Challog">
             <div class="done-product-info">
               <div class="done-product-title">Challog</div>
               <div class="done-product-desc">A challenge tracker to build your streaks</div>
+            </div>
+          </a>
+        </div>
+        <div class="done-product-item product-banner">
+          <a href="#" target="_blank">
+            <img src="assets/image/screenshot_whoishuman.png" alt="Who is Human">
+            <div class="done-product-info">
+              <div class="done-product-title">Who is Human?</div>
+              <div class="done-product-desc">A social deduction game</div>
             </div>
           </a>
         </div>
@@ -780,20 +765,20 @@
           </a>
         </div>
         <div class="done-product-item">
-          <a href="https://amzn.to/4pTD7x7" target="_blank">
-            <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 32px;">💡</div>
-            <div class="done-product-info">
-              <div class="done-product-title">LED Light</div>
-              <div class="done-product-desc">My table light</div>
-            </div>
-          </a>
-        </div>
-        <div class="done-product-item">
           <a href="https://amzn.to/3Ne3HDO" target="_blank">
             <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 32px;">🖱️</div>
             <div class="done-product-info">
               <div class="done-product-title">Trackpad</div>
               <div class="done-product-desc">My trackpad + stylus setup I used</div>
+            </div>
+          </a>
+        </div>
+        <div class="done-product-item">
+          <a href="https://amzn.to/4pTD7x7" target="_blank">
+            <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 32px;">💡</div>
+            <div class="done-product-info">
+              <div class="done-product-title">LED Light</div>
+              <div class="done-product-desc">My table light</div>
             </div>
           </a>
         </div>
@@ -855,6 +840,13 @@
             child.style.opacity = '';
             child.style.transform = '';
             child.style.animation = '';
+          });
+
+          // 動態設定每個 product-item 的完整 animation（含 delay）
+          const productItems = doneState.querySelectorAll('.done-product-item');
+          productItems.forEach((item, i) => {
+            const delay = (0.9 + i * 0.15).toFixed(2);
+            item.style.animation = `fadeInUp 0.4s ease-out ${delay}s forwards`;
           });
         });
       });
