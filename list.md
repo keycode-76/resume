@@ -38,3 +38,8 @@ from productivity tools to lifestyle apps
 Posting every day
 
 @404chenhavefun@gmail.com
+
+
+MAIL LIST
+davidaspiegs@gmail.com
+martim.oliveira.dev@gmail.com

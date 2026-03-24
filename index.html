@@ -9,7 +9,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #ccc;
+    background: #ece8dc;
     font-family: 'DM Sans', sans-serif;
     height: 100dvh;
     display: flex;
@@ -378,7 +378,7 @@
   }
 
   .done-state::-webkit-scrollbar-track {
-    background: #ccc;
+    background: #ece8dc;
   }
 
   .done-state::-webkit-scrollbar-thumb {
@@ -596,8 +596,8 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-top: 8px;
+    gap: 8px;
+    margin-top: 4px;
   }
 
   .done-product-item {
@@ -733,8 +733,8 @@
 
 <!-- ─── SCREEN 1: HERO ─── -->
 <div class="screen" id="s1">
-  <h2>Lets Connect</h2>
-  <h1>Hi, I'm 404 Chen</h1>
+  <h2>This is 404 Chen</h2>
+  <h1>Swipe to Join the Wishlist!</h1>
   <div class="button-container">
     <div class="email-input-wrapper" id="email-wrapper">
       <input type="email" id="email-input" placeholder="EMAIL" />
@@ -780,8 +780,8 @@ const CARDS = [
     color: '#1A1A1A',
     image: 'assets/image/screenshot_weatherFarm.png',
     tag: 'Game',
-    title: 'Weather Farm',
-    body: 'A little farm on your phone — plants grow in real days with real weather.',
+    title: 'Pocony',
+    body: 'A little balcony on your phone — plants grow in real days with real weather.',
     link: 'https://www.reddit.com/r/indiegames/comments/1rdhn75/i_made_a_farm_game_where_plants_take_real_days_to/',
     source: 'weather_farm'
   },
@@ -1122,7 +1122,7 @@ function createCard(data, idx) {
     link: data.link
   });
 
-  // 檢查是否為 Who is Human、Challog 或 Weather Farm（使用 source 或 title 判斷）
+  // 檢查是否為 Who is Human、Challog 或 Pocony（使用 source 或 title 判斷）
   const isWhoIsHuman = data.source === 'who_is_human' || data.title.includes('Who is');
   const isChallog = data.source === 'challog' || data.title.includes('Challog');
   const isWeatherFarm = data.source === 'weather_farm' || data.title.includes('Weather Farm');
