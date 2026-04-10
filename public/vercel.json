@@ -22,7 +22,7 @@
           "value": "pocony.dollarbasellc.com"
         }
       ],
-      "destination": "/page/pocony/$1"
+      "destination": "/pocony/$1"
     },
     {
       "source": "/",
@@ -32,7 +32,7 @@
           "value": "pocony.dollarbasellc.com"
         }
       ],
-      "destination": "/page/pocony/index.html"
+      "destination": "/pocony/index.html"
     }
   ]
 }
