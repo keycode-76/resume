@@ -12,5 +12,27 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "pocony.dollarbasellc.com"
+        }
+      ],
+      "destination": "/page/pocony/$1"
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "pocony.dollarbasellc.com"
+        }
+      ],
+      "destination": "/page/pocony/index.html"
+    }
   ]
 }
