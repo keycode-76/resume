@@ -1,18 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "headers": [
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
@@ -25,14 +12,14 @@
       "destination": "/pocony/$1"
     },
     {
-      "source": "/",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
-          "value": "pocony.dollarbasellc.com"
+          "value": "challog.dollarbasellc.com"
         }
       ],
-      "destination": "/pocony/index.html"
+      "destination": "/challog/$1"
     }
   ]
 }
