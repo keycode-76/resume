@@ -106,7 +106,6 @@ nav {
   font-size: 20px;
   font-weight: 600;
   color: rgba(0,0,0,0.75);
-  /* text-align: center; */
 }
 
 /* ── MOBILE LAYOUT (default) ── */
@@ -166,7 +165,6 @@ section:first-of-type { padding-top: 40px; }
   max-width: 380px;
 }
 
-/* mobile badges visible only on mobile */
 .hero-badges {
   display: flex;
   gap: 8px;
@@ -185,12 +183,10 @@ section:first-of-type { padding-top: 40px; }
 }
 
 /* ── ABOUT ── */
-#about-section
-{
+#about-section {
   padding: 0 45px;
 }
 .about-card {
-  /* padding: 0 24px; */
   font-size: 15px;
   color: var(--ink-mid);
   line-height: 1.75;
@@ -207,8 +203,6 @@ section:first-of-type { padding-top: 40px; }
 .about-highlight {
   margin-top: 16px;
   padding: 0 16px;
-  /* background: rgba(0,0,0,0.03); */
-  /* border-radius: 8px; */
   font-size: 15px;
   color: var(--ink-mid);
   border-left: 2px solid var(--ink);
@@ -216,7 +210,6 @@ section:first-of-type { padding-top: 40px; }
 }
 
 /* ── SKILLS ── */
-/* Mobile: 2-col grid of cards */
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -255,18 +248,17 @@ section:first-of-type { padding-top: 40px; }
   color: var(--ink);
 }
 
-/* Desktop skill list */
 .skill-list-section { display: none; }
 
 #projects-section { 
   padding: 0 45px; 
 }
+
 /* ── PROJECTS ── */
 .projects-list {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  /* gap: 16px; */
 }
 
 .project-card {
@@ -467,11 +459,9 @@ section:first-of-type { padding-top: 40px; }
   padding: 9px 0px;
   padding-right: 10px;
   text-decoration: none;
-  /* color: var(--ink); */
   color: #a81b1b;
   font-size: 12px;
   font-weight: 500;
-  /* background: var(--white); */
   transition: background 0.15s, color 0.15s;
 }
 
@@ -481,14 +471,12 @@ section:first-of-type { padding-top: 40px; }
 footer {
   text-align: left;
   margin: 10px 5px;
-  /* padding: 24px 32px 40px; */
   font-size: 12px;
   color: var(--ink-light);
 }
 
 /* ── TIMELINE ── */
 .timeline { width: 100%; margin-top: 16px; }
-
 
 .timeline-item {
   display: flex;
@@ -558,6 +546,10 @@ footer {
 /* ── LANG HELPERS ── */
 body.lang-ja .en { display: none !important; }
 body.lang-en .ja { display: none !important; }
+body.lang-zh .en { display: none !important; }
+body.lang-zh .ja { display: none !important; }
+body.lang-en .zh { display: none !important; }
+body.lang-ja .zh { display: none !important; }
 
 /* ── BTN ── */
 .btn-secondary {
@@ -577,25 +569,21 @@ body.lang-en .ja { display: none !important; }
 .btn-secondary:hover { background: var(--ink); color: var(--white); }
 
 /* ══════════════════════════════════════════
-   DESKTOP LAYOUT two-column sidebar + main
+   DESKTOP LAYOUT
    ══════════════════════════════════════════ */
 @media (min-width: 860px) {
 
-  /* Wider nav */
   nav { padding: 16px 48px; }
 
   #hero .hero-avatar { display: none; }
 
-  /* Reset page wrapper to full-bleed desktop layout */
   .page-wrapper {
     max-width: none;
     padding: 0;
     display: flex;
     min-height: 100vh;
   }
-  /* .sidebar-name, .sidebar-role { display: none; } */
-  /* .sidebar-avatar { width: 80px; height: 80px; } */
-  /* ── SIDEBAR ── */
+
   .desktop-sidebar {
     display: flex !important;
     flex-direction: column;
@@ -608,15 +596,13 @@ body.lang-en .ja { display: none !important; }
     gap: 32px;
   }
 
-  /* ── MAIN COLUMN ── */
   .desktop-main {
     flex: 1;
     min-width: 0;
-    padding-top: 52px;      /* nav height */
+    padding-top: 52px;
     max-width: 900px;
   }
 
-  /* Hero becomes top of main */
   #hero {
     padding: 60px 48px 0;
     text-align: left;
@@ -625,29 +611,23 @@ body.lang-en .ja { display: none !important; }
     gap: 16px;
   }
 
-  /* On desktop hide the badge row skills shown in sidebar list */
   #hero .hero-badges { display: none; }
 
-  /* Sections inside main */
   .desktop-main section {
     padding: 56px 48px 0;
   }
 
   .desktop-main section:first-of-type { padding-top: 40px; }
 
-  /* About card no extra indent on desktop */
   .about-card { padding: 0; }
 
-  /* Skills: hide grid, show sidebar list */
   #skills { display: none; }
 
-  /* Footer inside main */
-  .desktop-main footer { text-align: left; 
-    /* padding: 24px 48px 40px;  */
+  .desktop-main footer {
+    text-align: left;
     margin: 10px 5px;
   }
 
-  /* Sidebar skill list */
   .skill-list-section {
     display: block;
   }
@@ -693,9 +673,6 @@ body.lang-en .ja { display: none !important; }
     opacity: 0.45;
   }
 
-  /* Sidebar contact mini */
-  /* .sidebar-contact { margin-top: auto; } */
-
   .sidebar-contact a {
     display: block;
     font-size: 12px;
@@ -714,21 +691,16 @@ body.lang-en .ja { display: none !important; }
     height: 170px;
     border-radius: 5%;
     object-fit: cover;
-    /* border: 1.5px solid var(--border); */
     background: linear-gradient(135deg, #d4cfc4, #c8c3b6);
   }
 
-  /* Section titles left-aligned on desktop */
   .desktop-main .section-title { text-align: left; }
 
-  /* Contact links left-aligned */
   .desktop-main .social-links { justify-content: flex-start; }
 
-  /* Projects slightly wider feel */
   .projects-list { gap: 14px; }
 }
 
-/* ── Mobile section display ── */
 .desktop-sidebar { display: none; }
 
 @media (max-width: 480px) {
@@ -752,6 +724,7 @@ body.lang-en .ja { display: none !important; }
   </ul>
   <div class="nav-lang">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
     <button class="lang-btn" onclick="setLang('ja')">JP</button>
   </div>
 </nav>
@@ -764,7 +737,6 @@ body.lang-en .ja { display: none !important; }
       <img src="assets/image/404chen.png" alt="Elena Chen" class="sidebar-avatar">
     </div>
 
-    <!-- Skills list -->
     <div class="skill-list-section">
       <div class="skill-list-group">
         <div class="skill-list-heading">Frontend</div>
@@ -800,7 +772,6 @@ body.lang-en .ja { display: none !important; }
       </div>
     </div>
 
-    <!-- Sidebar contact -->
     <div class="sidebar-contact">
       <div class="skill-list-heading" style="margin-bottom:10px;">Contact</div>
       <a href="mailto:404chenhavefun@gmail.com">404chenhavefun@gmail.com</a>
@@ -825,7 +796,18 @@ body.lang-en .ja { display: none !important; }
       <div class="hero-role en">Frontend Engineer
         <br>React / Flutter
         <br>Built and shipped multiple apps independently
-        <!-- <br>Contact: -->
+        <br>
+        <a href="https://github.com/keycode-76" target="_blank" class="social-link">GitHub</a>
+        <a href="mailto:404chenhavefun@gmail.com" class="social-link">Email</a>
+        <a href="https://www.tiktok.com/@404_chen" target="_blank" class="social-link">TikTok</a>
+        <a href="https://www.instagram.com/404chen_" target="_blank" class="social-link">Instagram</a>
+        <a href="https://youtube.com/@404chenhavefun" target="_blank" class="social-link">YouTube</a>
+        <a href="https://x.com/404chenhavefun" target="_blank" class="social-link">X (Twitter)</a>
+      </div>
+
+      <div class="hero-role zh">前端工程師
+        <br>React / Flutter
+        <br>獨立開發並上架多款應用程式
         <br>
         <a href="https://github.com/keycode-76" target="_blank" class="social-link">GitHub</a>
         <a href="mailto:404chenhavefun@gmail.com" class="social-link">Email</a>
@@ -837,7 +819,7 @@ body.lang-en .ja { display: none !important; }
       
       <div class="hero-role ja">フロントエンドエンジニア · インディーゲーム開発者
         <br>React / Flutter
-        <br>生産性アプリからインディーゲームまで一人で企画・開発・リリースしています。]
+        <br>生産性アプリからインディーゲームまで一人で企画・開発・リリースしています。
         <br>連絡先:
         <a href="mailto:404chenhavefun@gmail.com" class="social-link">Email</a>
         <a href="https://www.tiktok.com/@404_chen" target="_blank" class="social-link">TikTok</a>
@@ -846,7 +828,6 @@ body.lang-en .ja { display: none !important; }
         <a href="https://x.com/404chenhavefun" target="_blank" class="social-link">X (Twitter)</a>
       </div>
 
-      <!-- Mobile only badges -->
       <div class="hero-badges">
         <span class="badge">React Native</span>
         <span class="badge">Flutter</span>
@@ -855,11 +836,10 @@ body.lang-en .ja { display: none !important; }
       </div>
     </section>
 
-    </section>
-
     <!-- ABOUT -->
     <section id="about-section">
       <h2 class="section-title en">About</h2>
+      <h2 class="section-title zh">關於我</h2>
       <h2 class="section-title ja">自己紹介</h2>
 
       <div class="about-card fade-up">
@@ -874,6 +854,19 @@ body.lang-en .ja { display: none !important; }
           <br>I continuously refine software performance through implementing new ideas, updates, testing, and coding. I've gained hands on experience with development tools, which I've used to enhance application accuracy and performance. 
           <br><br>Recently, I achieved <strong>2nd place at the 2026 Tokyo Hackathon</strong> in the <strong>AI Agent Web Game track</strong>, demonstrating my innovative spirit and execution capabilities.
           <br>In my spare time, I enjoy sports and games, finding the thrill of competition and challenge in them.
+        </div>
+
+        <div class="about-highlight zh">
+          我來自台灣，是一位積極主動、注重成果的<strong>獨立開發者</strong>，同時也是一位<strong>前端工程師</strong>。
+
+          <br>我的職涯始於平面設計與影像製作，這段經歷讓我在轉向軟體開發之前，建立了<strong>跨領域的視角</strong>。
+          我創立了 <strong>Dollar Base LLC</strong>，獨立開發並上架應用程式。
+          <br><br>從概念發想、程式開發到上架發布，我深度參與每一個環節，對每個細節都保持高度關注，做到<strong>從像素到產品</strong>的完整掌控。
+          我的 App 一款<strong>挑戰記錄工具</strong>，目前已在應用程式商店上架。
+          <br>雖然我沒有傳統企業的前端工作經驗，但我擁有<strong>從零打造專案的實戰經驗</strong>。
+          <br>我持續透過新想法、更新、測試與開發來優化軟體效能，並在實作中積累了豐富的開發工具使用經驗。
+          <br><br>最近，我在 <strong>2026 年東京黑客松</strong>的 <strong>AI Agent 網頁遊戲組</strong>中獲得<strong>第二名</strong>，展現了我的創新精神與執行力。
+          <br>閒暇時，我享受打羽球與電腦遊戲，享受競爭與挑戰帶來的刺激感。
         </div>
      
         <div class="about-highlight ja">
@@ -890,53 +883,66 @@ body.lang-en .ja { display: none !important; }
       <!-- Career Timeline -->
       <div class="timeline fade-up">
         <div class="section-title en">Career</div>
+        <div class="section-title zh">工作經歷</div>
         <div class="section-title ja">経歴</div>
 
         <div class="timeline-item">
           <div class="timeline-period en">2020 – 2024</div>
+          <div class="timeline-period zh">2020 – 2024</div>
           <div class="timeline-period ja">令和2 – 令和6</div>
           <div class="timeline-content">
             <div class="timeline-role en">Graphic Design & Video Production</div>
+            <div class="timeline-role zh">平面設計 & 影像製作</div>
             <div class="timeline-role ja">グラフィックデザイン・映像制作</div>
             <div class="timeline-desc en">Worked across three companies in Taiwan, photography, equipment ops, advertising signage design, and on-site supervision. Built a strong visual foundation before pivoting to code.</div>
+            <div class="timeline-desc zh">於台灣三家公司任職，負責攝影、設備操作、廣告看板設計及現場監督，在轉向程式開發前打下深厚的視覺設計基礎。</div>
             <div class="timeline-desc ja">台湾3社で写真撮影・機器操作・広告看板設計・現場監理を担当。コードへ転向前にしっかりとしたビジュアル基盤を構築。</div>
           </div>
         </div>
 
         <div class="timeline-item">
           <div class="timeline-period en">2024 – present</div>
+          <div class="timeline-period zh">2024 – 至今</div>
           <div class="timeline-period ja">令和6 – 現在</div>
           <div class="timeline-content">
             <div class="timeline-role en">Frontend Engineer (Freelance → LLC)</div>
+            <div class="timeline-role zh">前端工程師（自由接案 → 成立公司）</div>
             <div class="timeline-role ja">フロントエンドエンジニア（フリーランス → LLC設立）</div>
             <div class="timeline-desc en">Self-taught React Native, Flutter, and Next.js. Founded Dollar Base LLC (Oct 2025), launched Challog on Google Play (Jan 2026), and won 2nd at Tokyo Hackathon 2026.</div>
+            <div class="timeline-desc zh">自學 React Native、Flutter 與 Next.js。創立 Dollar Base LLC（2025年10月），上架 Challog 至 Google Play（2026年1月），並榮獲 2026 東京黑客松第二名。</div>
             <div class="timeline-desc ja">React Native・Flutter・Next.jsを独学。Dollar Base LLCを設立（2025年10月）、Challogをリリース（2026年1月）、東京ハッカソン2026で2位受賞。</div>
           </div>
         </div>
 
         <div class="timeline-item">
           <div class="timeline-period en">Jul 2025 – present</div>
+          <div class="timeline-period zh">2025年7月 – 至今</div>
           <div class="timeline-period ja">令和7年7月 – 現在</div>
           <div class="timeline-content">
             <div class="timeline-role en">Mary's Chocolate Co. Contract Staff (Japan)</div>
+            <div class="timeline-role zh">Mary's Chocolate Co. 約聘員工（日本）</div>
             <div class="timeline-role ja">株式会社メリーチョコレートカムパニー 船橋工場（契約社員）</div>
             <div class="timeline-desc en">Manufacturing line work in Japan while continuing indie development in parallel.</div>
+            <div class="timeline-desc zh">在日本從事製造線作業，同時持續進行獨立開發。</div>
             <div class="timeline-desc ja">日本での製造ライン業務と並行して、インディー開発を継続中。</div>
           </div>
         </div>
 
         <div class="timeline-edu">
           <div class="timeline-edu-title en">Education</div>
+          <div class="timeline-edu-title zh">學歷</div>
           <div class="timeline-edu-title ja">学歴</div>
           <div class="timeline-edu-item en">復興商工 Design Dept. (2013–2017) · 崑山科技大學 Video Communications (2017–2020)</div>
+          <div class="timeline-edu-item zh">復興商工 設計科（2013–2017）· 崑山科技大學 視訊傳播系（2017–2020）</div>
           <div class="timeline-edu-item ja">復興商工 デザイン学科（平成25–29）· 崑山科技大學 ビデオコミュニケーション部（平成29–令和2）</div>
         </div>
       </div>
     </section>
 
-    <!-- SKILLS (mobile only desktop shows sidebar) -->
+    <!-- SKILLS (mobile only) -->
     <section id="skills">
       <h2 class="section-title en">Skills</h2>
+      <h2 class="section-title zh">技能</h2>
       <h2 class="section-title ja">スキル</h2>
 
       <div class="skills-grid">
@@ -978,6 +984,7 @@ body.lang-en .ja { display: none !important; }
     <!-- PROJECTS -->
     <section id="projects-section">
       <h2 class="section-title en">Projects</h2>
+      <h2 class="section-title zh">作品</h2>
       <h2 class="section-title ja">作品</h2>
 
       <div class="projects-list">
@@ -991,6 +998,7 @@ body.lang-en .ja { display: none !important; }
             <div class="project-info">
               <div class="project-title">Pocony</div>
               <div class="project-desc en">A little balcony on your phone</div>
+              <div class="project-desc zh">手機裡的小陽台</div>
               <div class="project-desc ja">スマホの中の小さなベランダ</div>
             </div>
           </div>
@@ -1000,23 +1008,36 @@ body.lang-en .ja { display: none !important; }
               <span class="project-tag">Indie Game</span>
               <span class="project-tag">Mobile</span>
             </div>
-            <button class="detail-toggle" onclick="toggleDetail('pocony', this)">Details ↓</button>
+            <button class="detail-toggle" onclick="toggleDetail('pocony', this)">
+              <span class="en">Details ↓</span>
+              <span class="zh">詳細 ↓</span>
+              <span class="ja">詳細 ↓</span>
+            </button>
           </div>
           <div class="project-detail" id="detail-pocony">
             <div class="detail-section">
               <div class="detail-label en">What it is</div>
+              <div class="detail-label zh">專案介紹</div>
               <div class="detail-label ja">概要</div>
               <p class="detail-text en">Pocony is a mobile idle farming game built with Flutter. Plants grow in real time based on actual weather data pulled from your location, sunny days speed up growth, rainy days water your garden automatically. Leave your phone for a week, come back to a completely different balcony.</p>
+              <p class="detail-text zh">Pocony 是一款以 Flutter 開發的手機放置型農場遊戲。植物依據你所在地的真實天氣資料即時生長晴天加速成長，雨天自動澆水。放著手機一週不管，回來就會看到一個截然不同的陽台。</p>
               <p class="detail-text ja">Poconyは、Flutterで開発した放置型ファームゲームです。現地の天気データをリアルタイムで取得し、晴れた日は成長が加速し、雨の日は自動で水やり。1週間放置して戻ると、全く違う景色のベランダが待っています。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Key Features</div>
+              <div class="detail-label zh">主要功能</div>
               <div class="detail-label ja">主な機能</div>
               <ul class="detail-text en">
                 <li>Real time plant growth driven by live weather data</li>
                 <li>Interactive planting system (till, plant, water, grow, harvest)</li>
                 <li>Home screen farm widget integration for quick status access</li>
                 <li>Persistent local game state with lightweight on device storage</li>
+              </ul>
+              <ul class="detail-text zh">
+                <li>依據即時天氣資料驅動的植物生長系統</li>
+                <li>互動式種植流程（翻土、種植、澆水、生長、收穫）</li>
+                <li>主畫面農場小工具，快速查看遊戲狀態</li>
+                <li>輕量本地儲存，遊戲進度持久保存</li>
               </ul>
               <ul class="detail-text ja">
                 <li>リアルタイム天気データに基づく植物の成長システム</li>
@@ -1027,47 +1048,39 @@ body.lang-en .ja { display: none !important; }
             </div>
             <div class="detail-section">
               <div class="detail-label en">Tech Stack</div>
+              <div class="detail-label zh">技術棧</div>
               <div class="detail-label ja">技術スタック</div>
-              <ul class="detail-text en">
-                <li>Flutter</li>
-                <li>Dart</li>
-                <li>Isar Community</li>
-                <li>Open-Meteo API</li>
-                <li>Supabase</li>
-              </ul>
-              <ul class="detail-text ja">
-                <li>Flutter</li>
-                <li>Dart</li>
-                <li>Isar Community</li>
-                <li>Open-Meteo API</li>
-                <li>Supabase</li>
-              </ul>
+              <ul class="detail-text en"><li>Flutter</li><li>Dart</li><li>Isar Community</li><li>Open-Meteo API</li><li>Supabase</li></ul>
+              <ul class="detail-text zh"><li>Flutter</li><li>Dart</li><li>Isar Community</li><li>Open-Meteo API</li><li>Supabase</li></ul>
+              <ul class="detail-text ja"><li>Flutter</li><li>Dart</li><li>Isar Community</li><li>Open-Meteo API</li><li>Supabase</li></ul>
             </div>
             <div class="detail-section">
               <div class="detail-label en">My role</div>
+              <div class="detail-label zh">我的角色</div>
               <div class="detail-label ja">担当</div>
               <p class="detail-text en">100% solo, product concept, game design, UI/UX, Flutter development, weather API integration, game loop logic, and app store submission.</p>
+              <p class="detail-text zh">100% 獨立完成產品概念、遊戲設計、UI/UX、Flutter 開發、天氣 API 串接、遊戲迴圈邏輯，以及應用程式商店上架。</p>
               <p class="detail-text ja">企画・ゲームデザイン・UI/UX・Flutter開発・天気API連携・ゲームループ実装・ストア申請まで、すべて一人で担当。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Challenge</div>
+              <div class="detail-label zh">挑戰</div>
               <div class="detail-label ja">課題</div>
-              <p class="detail-text en">The hardest part: 
-                The most challenging part is the game design, calculating plant growth speed based on weather, and building the game loop for flowering, weeding, and planting.</p>
-              <p class="detail-text ja">最大の課題はゲームデザインそのもので、天気に基づく植物の成長速度の計算や、開花・除草・植え替えのゲームループ設計が特に複雑でした。アプリが閉じている間の成長量を、バッテリー消費なしで正確に算出するため、「最終起動時刻」をローカルに保存し、再起動時に天気サマリーを取得して差分成長をオフラインで計算する仕組みを構築しました。</p>
+              <p class="detail-text en">The hardest part: The most challenging part is the game design, calculating plant growth speed based on weather, and building the game loop for flowering, weeding, and planting.</p>
+              <p class="detail-text zh">最大的挑戰在於遊戲設計本身根據天氣計算植物生長速度，以及建立開花、除草、種植的遊戲迴圈。為了在 App 關閉期間也能正確計算成長量，又不消耗電量，我將「最後啟動時間」儲存在本地，重新開啟時取得天氣摘要，再離線計算差異成長值。</p>
+              <p class="detail-text ja">最大の課題はゲームデザインそのもので、天気に基づく植物の成長速度の計算や、開花・除草・植え替えのゲームループ設計が特に複雑でした。</p>
             </div>
             <div class="detail-section">
               <a href="https://pocony.dollarbasellc.com/" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Website ↗</span><span class="ja">Websiteで見る ↗</span>
+                <span class="en">View Website ↗</span><span class="zh">查看網站 ↗</span><span class="ja">Websiteで見る ↗</span>
               </a>
               <a href="https://www.reddit.com/r/indiegames/comments/1rdhn75/" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Reddit Discussion ↗</span><span class="ja">Redditで見る ↗</span>
+                <span class="en">View Reddit Discussion ↗</span><span class="zh">Reddit 討論串 ↗</span><span class="ja">Redditで見る ↗</span>
               </a>
             </div>
           </div>
         </div>
 
-        
         <!-- Who is Human -->
         <div class="project-card banner fade-up">
           <div class="project-main">
@@ -1076,12 +1089,8 @@ body.lang-en .ja { display: none !important; }
             </div>
             <div class="project-info">
               <div class="project-title">Who is Human?</div>
-              <div class="project-desc en">
-                A social deduction web game
-                <br> Mistral AI hackathon 2026 2nd place winner
-                <br>Build in 48 hours
-                <br>With 3 team members
-              </div>
+              <div class="project-desc en">A social deduction web game<br>Mistral AI hackathon 2026 2nd place winner<br>Build in 48 hours<br>With 3 team members</div>
+              <div class="project-desc zh">社交推理網頁遊戲<br>Mistral AI 黑客松 2026 第二名<br>48 小時內完成<br>三人團隊</div>
               <div class="project-desc ja">人狼系Webゲーム<br>Mistral AI ハッカソン2026 2位受賞<br>48時間で制作・チーム3名</div>
             </div>
           </div>
@@ -1091,17 +1100,24 @@ body.lang-en .ja { display: none !important; }
               <span class="project-tag">Web Game</span>
               <span class="project-tag">Hackathon</span>
             </div>
-            <button class="detail-toggle" onclick="toggleDetail('human', this)">Details ↓</button>
+            <button class="detail-toggle" onclick="toggleDetail('human', this)">
+              <span class="en">Details ↓</span>
+              <span class="zh">詳細 ↓</span>
+              <span class="ja">詳細 ↓</span>
+            </button>
           </div>
           <div class="project-detail" id="detail-human">
             <div class="detail-section">
               <div class="detail-label en">What it is</div>
+              <div class="detail-label zh">專案介紹</div>
               <div class="detail-label ja">概要</div>
               <p class="detail-text en">A social deduction game where 1 human joins a group chat with 4 AI agents, and nobody knows who's real. Players take turns speaking, then vote to eliminate who they think is AI. Built in 48 hours at Tokyo Hackathon 2026, winning 2nd place.</p>
+              <p class="detail-text zh">一款社交推理遊戲1 名真人玩家加入與 4 個 AI 角色的群組對話，沒有人知道誰是真人。玩家輪流發言，再投票淘汰認為是 AI 的對象。在 2026 東京黑客松 48 小時內完成，榮獲第二名。</p>
               <p class="detail-text ja">1人の人間と4体のAIエージェントが同じグループチャットに参加し、誰がAIかを投票で見破るゲームです。東京ハッカソン2026で48時間制作し、2位受賞。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Key Features</div>
+              <div class="detail-label zh">主要功能</div>
               <div class="detail-label ja">主な機能</div>
               <ul class="detail-text en">
                 <li>Turn-based game loop: speak → vote → eliminate → next round</li>
@@ -1109,6 +1125,13 @@ body.lang-en .ja { display: none !important; }
                 <li>Real-time multiplayer state sync via WebSocket</li>
                 <li>Browser Web Speech API for AI text-to-speech</li>
                 <li>DiceBear SVG avatars with smooth position interpolation</li>
+              </ul>
+              <ul class="detail-text zh">
+                <li>回合制遊戲迴圈：發言 → 投票 → 淘汰 → 下一回合</li>
+                <li>Mistral API 驅動的 AI 信任度／迴避度印象評分</li>
+                <li>透過 WebSocket 實現即時多人狀態同步</li>
+                <li>瀏覽器 Web Speech API 實現 AI 文字轉語音</li>
+                <li>DiceBear SVG 頭像搭配流暢位置插值動畫</li>
               </ul>
               <ul class="detail-text ja">
                 <li>ターン制ゲームループ：発言 → 投票 → 脱落 → 次のラウンド</li>
@@ -1120,40 +1143,34 @@ body.lang-en .ja { display: none !important; }
             </div>
             <div class="detail-section">
               <div class="detail-label en">Tech Stack</div>
+              <div class="detail-label zh">技術棧</div>
               <div class="detail-label ja">技術スタック</div>
-              <ul class="detail-text en">
-                <li>Next.js 14 + TypeScript + Tailwind CSS</li>
-                <li>Express.js + WebSocket</li>
-                <li>Mistral API</li>
-                <li>Web Speech API</li>
-                <li>Supabase (design-layer)</li>
-              </ul>
-              <ul class="detail-text ja">
-                <li>Next.js 14 + TypeScript + Tailwind CSS</li>
-                <li>Express.js + WebSocket</li>
-                <li>Mistral API</li>
-                <li>Web Speech API</li>
-                <li>Supabase（設計レイヤー）</li>
-              </ul>
+              <ul class="detail-text en"><li>Next.js 14 + TypeScript + Tailwind CSS</li><li>Express.js + WebSocket</li><li>Mistral API</li><li>Web Speech API</li><li>Supabase (design-layer)</li></ul>
+              <ul class="detail-text zh"><li>Next.js 14 + TypeScript + Tailwind CSS</li><li>Express.js + WebSocket</li><li>Mistral API</li><li>Web Speech API</li><li>Supabase（設計層）</li></ul>
+              <ul class="detail-text ja"><li>Next.js 14 + TypeScript + Tailwind CSS</li><li>Express.js + WebSocket</li><li>Mistral API</li><li>Web Speech API</li><li>Supabase（設計レイヤー）</li></ul>
             </div>
             <div class="detail-section">
               <div class="detail-label en">My role</div>
+              <div class="detail-label zh">我的角色</div>
               <div class="detail-label ja">担当</div>
               <p class="detail-text en">Game design, UI/UX design, full frontend development.</p>
+              <p class="detail-text zh">遊戲設計、UI/UX 設計、完整前端開發、AI 角色提示詞工程、即時 Session 管理。</p>
               <p class="detail-text ja">ゲームデザイン・UI/UX設計・フロントエンド全般・AIエージェントのプロンプトエンジニアリング・リアルタイムセッション管理を担当。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Challenge</div>
+              <div class="detail-label zh">挑戰</div>
               <div class="detail-label ja">課題</div>
               <p class="detail-text en">The original plan used ElevenLabs + Supabase Realtime, but both were cut mid-hackathon due to quota limits and time. Pivoted to Web Speech API for TTS and in-memory game state instead of persistent DB.</p>
+              <p class="detail-text zh">原本計畫使用 ElevenLabs + Supabase Realtime，但黑客松進行中因配額限制與時間不足，兩者都臨時取消。改以 Web Speech API 處理語音，並以記憶體儲存取代持久化資料庫，同時也解決了移動動畫流暢度和 UI 顯示 Bug。</p>
               <p class="detail-text ja">ElevenLabsとSupabase Realtimeを計画していたが、制限と時間の都合でWeb Speech API＋インメモリ状態に切替。移動の滑らかさやUI表示バグなども対応しました。</p>
             </div>
             <div class="detail-section">
               <a href="https://www.youtube.com/watch?v=DZ5jeAct5-4" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Demo Video ↗</span><span class="ja">Demo Videoで見る ↗</span>
+                <span class="en">View Demo Video ↗</span><span class="zh">觀看 Demo 影片 ↗</span><span class="ja">Demo Videoで見る ↗</span>
               </a>
               <a href="https://github.com/ramandeep11/mistral-ai/tree/main" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Code ↗</span><span class="ja">コードを見る ↗</span>
+                <span class="en">View Code ↗</span><span class="zh">查看程式碼 ↗</span><span class="ja">コードを見る ↗</span>
               </a>
             </div>
           </div>
@@ -1168,6 +1185,7 @@ body.lang-en .ja { display: none !important; }
             <div class="project-info">
               <div class="project-title">Challog</div>
               <div class="project-desc en">A challenge tracker to build your streaks</div>
+              <div class="project-desc zh">打造連續紀錄的挑戰追蹤器</div>
               <div class="project-desc ja">ストリークを作るチャレンジトラッカー</div>
             </div>
           </div>
@@ -1177,17 +1195,24 @@ body.lang-en .ja { display: none !important; }
               <span class="project-tag">Google Play</span>
               <span class="project-tag">Productivity</span>
             </div>
-            <button class="detail-toggle" onclick="toggleDetail('challog', this)">Details ↓</button>
+            <button class="detail-toggle" onclick="toggleDetail('challog', this)">
+              <span class="en">Details ↓</span>
+              <span class="zh">詳細 ↓</span>
+              <span class="ja">詳細 ↓</span>
+            </button>
           </div>
           <div class="project-detail" id="detail-challog">
             <div class="detail-section">
               <div class="detail-label en">What it is</div>
+              <div class="detail-label zh">專案介紹</div>
               <div class="detail-label ja">概要</div>
               <p class="detail-text en">Challog is a minimalist daily challenge tracker built to help users stay consistent. Create challenges, log daily check ins, watch your streak grow, and share progress snapshots, with motivational nudges to keep the momentum going.</p>
+              <p class="detail-text zh">Challog 是一款極簡風格的每日挑戰追蹤器，幫助使用者維持習慣。建立挑戰、每日打卡、看著連續紀錄成長，並分享進度快照搭配激勵提示，讓你持續保持動力。</p>
               <p class="detail-text ja">Challogは、習慣継続を支援するシンプルなチャレンジ記録アプリです。毎日チェックインし、ストリークを伸ばし、進捗スナップショットを共有できます。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Key Features</div>
+              <div class="detail-label zh">主要功能</div>
               <div class="detail-label ja">主な機能</div>
               <ul class="detail-text en">
                 <li>Daily challenge check-in with streak tracking and status display</li>
@@ -1196,6 +1221,14 @@ body.lang-en .ja { display: none !important; }
                 <li>Android home screen widget syncing challenge data to the native layer</li>
                 <li>In-app purchases via RevenueCat for Premium upgrade</li>
                 <li>Full multilingual support with i18next</li>
+              </ul>
+              <ul class="detail-text zh">
+                <li>每日挑戰打卡與連續紀錄追蹤及狀態顯示</li>
+                <li>進度快照生成與一鍵分享</li>
+                <li>Google 登入 + Supabase 雲端同步與本地合併邏輯</li>
+                <li>Android 主畫面小工具，同步挑戰資料至原生層</li>
+                <li>透過 RevenueCat 實現應用內購買升級 Premium</li>
+                <li>以 i18next 實現完整多語系支援</li>
               </ul>
               <ul class="detail-text ja">
                 <li>毎日のチェックインとストリーク追跡・ステータス表示</li>
@@ -1208,47 +1241,37 @@ body.lang-en .ja { display: none !important; }
             </div>
             <div class="detail-section">
               <div class="detail-label en">Tech Stack</div>
+              <div class="detail-label zh">技術棧</div>
               <div class="detail-label ja">技術スタック</div>
-              <ul class="detail-text en">
-                <li>React Native + Expo</li>
-                <li>TypeScript / JavaScript</li>
-                <li>Supabase (data & auth)</li>
-                <li>Google Sign In</li>
-                <li>RevenueCat</li>
-                <li>i18next</li>
-                <li>Android Native Widget</li>
-              </ul>
-              <ul class="detail-text ja">
-                <li>React Native + Expo</li>
-                <li>TypeScript / JavaScript</li>
-                <li>Supabase（データ・認証）</li>
-                <li>Google サインイン</li>
-                <li>RevenueCat</li>
-                <li>i18next</li>
-                <li>Androidネイティブウィジェット</li>
-              </ul>
+              <ul class="detail-text en"><li>React Native + Expo</li><li>TypeScript / JavaScript</li><li>Supabase (data & auth)</li><li>Google Sign In</li><li>RevenueCat</li><li>i18next</li><li>Android Native Widget</li></ul>
+              <ul class="detail-text zh"><li>React Native + Expo</li><li>TypeScript / JavaScript</li><li>Supabase（資料與認證）</li><li>Google 登入</li><li>RevenueCat</li><li>i18next</li><li>Android 原生小工具</li></ul>
+              <ul class="detail-text ja"><li>React Native + Expo</li><li>TypeScript / JavaScript</li><li>Supabase（データ・認証）</li><li>Google サインイン</li><li>RevenueCat</li><li>i18next</li><li>Androidネイティブウィジェット</li></ul>
             </div>
             <div class="detail-section">
               <div class="detail-label en">My role</div>
+              <div class="detail-label zh">我的角色</div>
               <div class="detail-label ja">担当</div>
               <p class="detail-text en">Sole founder and developer. Incorporated Dollar Base LLC, designed the full UI in Figma, built and shipped on Google Play.</p>
+              <p class="detail-text zh">獨立創辦人兼開發者。成立 Dollar Base LLC，以 Figma 完成全套 UI 設計，開發並上架至 Google Play。</p>
               <p class="detail-text ja">Dollar Base LLCを設立し、Figmaでのフルデザイン、開発、PlayストアS申請まで一人で担当。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Challenge</div>
+              <div class="detail-label zh">挑戰</div>
               <div class="detail-label ja">課題</div>
               <p class="detail-text en">The Android widget required syncing JS layer data to native SharedPreferences and screenshot files, timing issues, stale refs, and missing files all needed defensive handling. In-app purchase state also had race conditions ("operation already in progress") that required timeout resets and careful sequencing.</p>
+              <p class="detail-text zh">Android 小工具需要將 JS 層資料同步至原生 SharedPreferences 和截圖檔案，時序問題、舊參照與缺失檔案都需要防禦性處理。應用內購買狀態也有競態條件（「operation already in progress」），需要超時重置與謹慎的順序控制。</p>
               <p class="detail-text ja">WidgetはJSレイヤーとネイティブ間のデータ同期が複雑で、タイミングや参照切れへの防御処理が必要でした。RevenueCatの競合状態も実装上の課題でした。</p>
             </div>
             <div class="detail-section">
               <a href="https://github.com/keycode-76/challog/tree/main" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Code ↗</span><span class="ja">コードを見る ↗</span>
+                <span class="en">View Code ↗</span><span class="zh">查看程式碼 ↗</span><span class="ja">コードを見る ↗</span>
               </a>
               <a href="https://play.google.com/store/apps/details?id=com.challog.app" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">Google Play ↗</span><span class="ja">Google Playで見る ↗</span>
+                <span class="en">Google Play ↗</span><span class="zh">Google Play ↗</span><span class="ja">Google Playで見る ↗</span>
               </a>
               <a href="https://challog.dollarbasellc.com/" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Website ↗</span><span class="ja">Websiteで見る ↗</span>
+                <span class="en">View Website ↗</span><span class="zh">查看網站 ↗</span><span class="ja">Websiteで見る ↗</span>
               </a>
             </div>
           </div>
@@ -1263,6 +1286,7 @@ body.lang-en .ja { display: none !important; }
             <div class="project-info">
               <div class="project-title">Sushi Shots</div>
               <div class="project-desc en">Clean App Store screenshots in under 5 min</div>
+              <div class="project-desc zh">5 分鐘產出乾淨的 App Store 截圖</div>
               <div class="project-desc ja">5分でキレイなアプリスクリーンショット</div>
             </div>
           </div>
@@ -1272,22 +1296,34 @@ body.lang-en .ja { display: none !important; }
               <span class="project-tag">Web Tool</span>
               <span class="project-tag">Developer Tool</span>
             </div>
-            <button class="detail-toggle" onclick="toggleDetail('sushishots', this)">Details ↓</button>
+            <button class="detail-toggle" onclick="toggleDetail('sushishots', this)">
+              <span class="en">Details ↓</span>
+              <span class="zh">詳細 ↓</span>
+              <span class="ja">詳細 ↓</span>
+            </button>
           </div>
           <div class="project-detail" id="detail-sushishots">
             <div class="detail-section">
               <div class="detail-label en">What it is</div>
+              <div class="detail-label zh">專案介紹</div>
               <div class="detail-label ja">概要</div>
               <p class="detail-text en">A web tool for generating App Store and Google Play screenshots fast. Upload your app screenshots, pick a device frame, adjust background and text, preview in real time on Canvas, and export all sizes in one click.</p>
+              <p class="detail-text zh">快速生成 App Store 與 Google Play 截圖的網頁工具。上傳 App 截圖、選擇裝置框架、調整背景與文字，在 Canvas 即時預覽，一鍵匯出所有尺寸。</p>
               <p class="detail-text ja">App Store / Google Play 用のスクリーンショットを素早く生成するWebツール。デバイスフレームを選び、背景・テキストを調整してCanvasでプレビュー、一括エクスポートまで完結。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Key Features</div>
+              <div class="detail-label zh">主要功能</div>
               <div class="detail-label ja">主な機能</div>
               <ul class="detail-text en">
                 <li>iPhone / Android device frame templates with real time Canvas preview</li>
                 <li>Custom backgrounds, text editing, and batch export</li>
                 <li>Stripe subscription with free tier download limits</li>
+              </ul>
+              <ul class="detail-text zh">
+                <li>iPhone / Android 裝置框架模板搭配即時 Canvas 預覽</li>
+                <li>自訂背景、文字編輯與批次匯出</li>
+                <li>Stripe 訂閱制，免費方案有下載次數限制</li>
               </ul>
               <ul class="detail-text ja">
                 <li>iPhone / AndroidデバイスフレームテンプレートとリアルタイムCanvasプレビュー</li>
@@ -1297,40 +1333,37 @@ body.lang-en .ja { display: none !important; }
             </div>
             <div class="detail-section">
               <div class="detail-label en">Tech Stack</div>
+              <div class="detail-label zh">技術棧</div>
               <div class="detail-label ja">技術スタック</div>
-              <ul class="detail-text en">
-                <li>Next.js 14 + TypeScript + Tailwind CSS</li>
-                <li>Browser Canvas API</li>
-                <li>Stripe</li>
-              </ul>
-              <ul class="detail-text ja">
-                <li>Next.js 14 + TypeScript + Tailwind CSS</li>
-                <li>ブラウザ Canvas API</li>
-                <li>Stripe</li>
-              </ul>
+              <ul class="detail-text en"><li>Next.js 14 + TypeScript + Tailwind CSS</li><li>Browser Canvas API</li><li>Stripe</li></ul>
+              <ul class="detail-text zh"><li>Next.js 14 + TypeScript + Tailwind CSS</li><li>瀏覽器 Canvas API</li><li>Stripe</li></ul>
+              <ul class="detail-text ja"><li>Next.js 14 + TypeScript + Tailwind CSS</li><li>ブラウザ Canvas API</li><li>Stripe</li></ul>
             </div>
             <div class="detail-section">
               <div class="detail-label en">My role</div>
+              <div class="detail-label zh">我的角色</div>
               <div class="detail-label ja">担当</div>
               <p class="detail-text en">100% solo, product concept, design, full-stack development, Stripe integration, and deployment on Vercel.</p>
+              <p class="detail-text zh">100% 獨立完成產品概念、設計、全端開發、Stripe 串接，以及部署至 Vercel。</p>
               <p class="detail-text ja">企画・デザイン・フルスタック開発・Stripe連携・Vercelデプロイまで、すべて一人で担当。</p>
             </div>
             <div class="detail-section">
               <div class="detail-label en">Challenge</div>
+              <div class="detail-label zh">挑戰</div>
               <div class="detail-label ja">課題</div>
               <p class="detail-text en">Download limit logic needed both frontend pre-checks and backend enforcement to stay consistent across free and Pro tiers.</p>
+              <p class="detail-text zh">下載限制邏輯需要前端預先檢查與後端強制執行雙重把關，才能確保免費與 Pro 方案之間的一致性。Canvas 繪圖的非同步時序控制、Stripe Webhook 簽名驗證的 body 解析設定也是主要挑戰。</p>
               <p class="detail-text ja">Canvas描画の非同期タイミング制御、StripeのWebhook署名検証のためのbody解析バイパス、フリー/Pro間のダウンロード制限の整合性確保が主な課題でした。</p>
             </div>
             <div class="detail-section">
               <a href="https://sushishots.dollarbasellc.com/" target="_blank" class="btn-secondary" style="font-size:12px; padding:8px 18px;">
-                <span class="en">View Website ↗</span><span class="ja">Websiteで見る ↗</span>
+                <span class="en">View Website ↗</span><span class="zh">查看網站 ↗</span><span class="ja">Websiteで見る ↗</span>
               </a>
             </div>
           </div>
         </div>
 
       </div>
-    
 
     <footer>
       <p>Last Update: 2026.04</p>
@@ -1351,7 +1384,19 @@ function toggleDetail(id, btn) {
   const detail = document.getElementById('detail-' + id);
   const isOpen = detail.classList.contains('open');
   detail.classList.toggle('open');
-  btn.textContent = isOpen ? 'Details ↓' : 'Close ↑';
+
+  const lang = document.body.className.replace('lang-', '');
+  const openMap = { en: 'Details ↓', zh: '詳細 ↓', ja: '詳細 ↓' };
+  const closeMap = { en: 'Close ↑', zh: '收起 ↑', ja: '閉じる ↑' };
+
+  // Update each span inside the button
+  btn.querySelectorAll('span').forEach(span => {
+    const l = [...span.classList].find(c => ['en','zh','ja'].includes(c));
+    if (!l) return;
+    span.textContent = isOpen
+      ? (l === 'en' ? 'Details ↓' : l === 'zh' ? '詳細 ↓' : '詳細 ↓')
+      : (l === 'en' ? 'Close ↑' : l === 'zh' ? '收起 ↑' : '閉じる ↑');
+  });
 }
 
 const observer = new IntersectionObserver((entries) => {
